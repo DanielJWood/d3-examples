@@ -36,7 +36,7 @@ console.log(q)
   d3.select(this)
     .transition()
     .duration(900)
-    // .attr("cy", "0%")
+    .attr("cy", "40%")
     .attr("fill", "hsl(" + (d.percent * 360) + ",100%,50%)")
     .attr("r", function(d) {
 		return ((Math.sin(d.percent / 5) + 1.1) * 3) + "%";
@@ -47,7 +47,7 @@ console.log(q)
       d3.select(this)
         .transition()
         .duration(900)
-        // .attr("cy", "100%")
+        .attr("cy", "70%")
         .attr("fill", function(d) {
         	console.log(q)
         	var color = "hsl(" + (360-(d.percent * 360)) + ",100%,50%)"
@@ -68,5 +68,5 @@ d3.selectAll("circle")
     return i * 50;
   })
   .duration(900)
-  // .attr("cy", "100%")
+  .attr("cy", "60%")
   .each("end", wave)
