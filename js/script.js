@@ -1,3 +1,7 @@
+function getRandomInt(min, max) {
+    return Math.floor(Math.random() * (max - min + 1)) + min;
+}
+
 var dataset = [];
 var numPoints = 100;
 var numWaves = 4;
@@ -26,20 +30,20 @@ var circles = svg.selectAll("circle")
 	.attr("cy", "50%")
 	.attr("r", "1%");
 
-wave = function(d) {
-if (q === 99) {q=0} else{q += 1;};
-
-// q = q / 100;
-console.log(q)
-// console.log(d.percent)
+function wave(d) {
   //Move to bottom
   d3.select(this)
     .transition()
     .duration(900)
-    .attr("cy", "40%")
+    .attr("cy", function(d) {
+    	var h1 = "40"
+		// var h1 = getRandomInt(38,42)
+		// return d.percent + "%";
+    	return h1 + "%"
+    })    
     .attr("fill", "hsl(" + (d.percent * 360) + ",100%,50%)")
     .attr("r", function(d) {
-		return ((Math.sin(d.percent / 5) + 1.1) * 3) + "%";
+		return ((Math.sin(d.percent / 5) + 1.1) * 4) + "%";
 	})
     .each("end", function() {
 
@@ -47,14 +51,19 @@ console.log(q)
       d3.select(this)
         .transition()
         .duration(900)
-        .attr("cy", "70%")
+	    .attr("cy", function(d) {
+	    	var h2 = "50"
+			// var h2 = getRandomInt(48,52)
+			// return d.percent + "%";
+	    	return h2 + "%"
+	    })    
         .attr("fill", function(d) {
-        	console.log(q)
+        	// console.log(q)
         	var color = "hsl(" + (360-(d.percent * 360)) + ",100%,50%)"
         	return color;
         })
         .attr("r", function(d) {
-			return ((Math.sin(d.percent / 5) + 10.1) * 2) + "%";
+			return ((Math.sin(d.percent / 5) + 1.1) * 2) + "%";
 		})
         .each("end", wave);
 
@@ -65,8 +74,10 @@ console.log(q)
 d3.selectAll("circle")
   .transition()
   .delay(function(d, i) {
+  	// if (i == ) {} else{};
     return i * 50;
   })
   .duration(900)
   .attr("cy", "60%")
+  // .each("end", wave)
   .each("end", wave)
