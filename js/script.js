@@ -43,7 +43,7 @@ function wave(d) {
     })    
     .attr("fill", "hsl(" + (d.percent * 360) + ",100%,50%)")
     .attr("r", function(d) {
-		return ((Math.sin(d.percent / 5) + 1.1) * 4) + "%";
+		return ((Math.sin(d.percent / 5) + 2) * 2) + "%";
 	})
     .each("end", function() {
 
@@ -52,10 +52,10 @@ function wave(d) {
         .transition()
         .duration(900)
 	    .attr("cy", function(d) {
-	    	var h2 = "50"
+	    	var h2 = "40"
 			// var h2 = getRandomInt(48,52)
-			// return d.percent + "%";
-	    	return h2 + "%"
+			return d.percent + "%";
+	    	// return h2 + "%"
 	    })    
         .attr("fill", function(d) {
         	// console.log(q)
@@ -63,7 +63,7 @@ function wave(d) {
         	return color;
         })
         .attr("r", function(d) {
-			return ((Math.sin(d.percent / 5) + 1.1) * 2) + "%";
+			return ((Math.cos(d.percent / 5) + 7) * 2 + 2) + "%";
 		})
         .each("end", wave);
 
