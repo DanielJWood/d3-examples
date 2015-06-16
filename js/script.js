@@ -27,8 +27,20 @@ var circles = svg.selectAll("circle")
 	.attr("cx", function(d) {
 		return d.percent + "%";
 	})
+	// .attr("cy", function(d, i) {
+	//    return (Math.random() * 100) + "%";
+	// })
 	.attr("cy", "50%")
-	.attr("r", "1%");
+	.attr("r", function(d, i) {
+	   return (Math.random() * 2) + "%";
+	})
+	// .attr("fill", function(d,i) { 
+	// 	console.log(i)
+	// 	console.log(d)
+	// 	return "hsl(" + (360 - (d.percent * 360)) + ",100%,50%)"
+	// })
+		
+	// .attr("r", "1%");
 
 function wave(d) {
   //Move to bottom
@@ -63,7 +75,7 @@ function wave(d) {
         	return color;
         })
         .attr("r", function(d) {
-			return ((Math.cos(d.percent / 5) + 7) * 2 + 2) + "%";
+			return ((Math.cos(d.percent / 5) + 4) * 2 + 2) + "%";
 		})
         .each("end", wave);
 
