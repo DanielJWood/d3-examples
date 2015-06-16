@@ -3,7 +3,7 @@ function getRandomInt(min, max) {
 }
 
 var dataset = [];
-var numPoints = 100;
+var numPoints = 200;
 var numWaves = 4;
 var i, o, p;
 var q = 0;
@@ -50,8 +50,8 @@ function wave(d) {
     .attr("cy", function(d) {
     	var h1 = "40"
 		// var h1 = getRandomInt(38,42)
-		// return d.percent + "%";
-    	return h1 + "%"
+		return d.percent + "%";
+    	// return h1 + "%"
     })    
     .attr("fill", "hsl(" + (d.percent * 360) + ",100%,50%)")
     .attr("r", function(d) {
