@@ -1,0 +1,2090 @@
+---
+layout: cluster
+---
+
+<style>
+
+.leaflet-popup-content p {
+    color: #000 !important;
+    border-bottom: none !important;
+    padding-bottom: 0px !important;
+    margin-top: 0px !important;
+}
+
+.leaflet-popup-content h2 {
+    color: #000 !important;
+}
+
+
+
+#info-box p {
+    padding-bottom: 10px !important;
+}
+
+#info-box p:last-child {
+  padding-bottom: 0 !important;
+}
+
+body.node-type-map .legend-title {
+    color: #fff !important;
+}
+
+body.node-type-map .my-legend .legend-scale ul li {
+    color: #fff !important;
+}
+
+.leaflet-control-zoom-in, .leaflet-control-zoom-out {
+    text-decoration: none !important;
+}
+
+.leaflet-popup-tip {
+    margin-left: 10px !important;
+}
+
+
+
+/********************************************
+
+  Styles to be added to energy.gov in order 
+  to allow it to look however you want it.
+  Reminder: make it responsive
+
+********************************************/
+
+
+#sidebar-right{display:none !important;}
+#main-content{width:100% !important;}
+
+/*+++++++++++++++++++++++++++
+Map
+++++++++++++++++++++++++++++++++++++++*/
+
+
+/*#scroll-area{width:40px;height:100%;position:absolute;z-index:10;right:0px;}*/
+path {
+      stroke: 1px;
+    }
+.leaflet-popup-tip {
+  width:0 !important;
+  height:0 !important;
+  margin:0;
+  border-left:10px solid transparent !important;
+  border-right:10px solid transparent !important; 
+  border-top:10px solid #fff !important;
+  box-shadow:none !important;
+  }
+
+.leaflet-popup-tip-container {
+  overflow: visible !important;
+}
+
+.leaflet-popup-tip {
+  background: transparent;
+  -webkit-transform: rotate(0deg);
+}
+
+/********************
+Styles P
+****************************/
+
+/* http://meyerweb.com/eric/tools/css/reset/ 
+   v2.0 | 20110126
+   License: none (public domain)
+*/
+
+html, body, div, span, applet, object, iframe,
+h1, h2, h3, h4, h5, h6, p, blockquote, pre,
+a, abbr, acronym, address, big, cite, code,
+del, dfn, em, img, ins, kbd, q, s, samp,
+small, strike, strong, sub, sup, tt, var,
+b, u, i, center,
+dl, dt, dd, ol, ul, li,
+fieldset, form, label, legend,
+table, caption, tbody, tfoot, thead, tr, th, td,
+article, aside, canvas, details, embed, 
+figure, figcaption, footer, header, hgroup, 
+menu, nav, output, ruby, section, summary,
+time, mark, audio, video {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  font-size: 100%;
+  font: inherit;
+  vertical-align: baseline;
+}
+/* HTML5 display-role reset for older browsers */
+article, aside, details, figcaption, figure, 
+footer, header, hgroup, menu, nav, section {
+  display: block;
+}
+body {
+  line-height: 1;
+}
+ol, ul {
+  list-style: none;
+}
+blockquote, q {
+  quotes: none;
+}
+blockquote:before, blockquote:after,
+q:before, q:after {
+  content: '';
+  content: none;
+}
+table {
+  border-collapse: collapse;
+  border-spacing: 0;
+}
+
+/******************************
+  Body and map frame
+******************************/
+body { 
+  margin:0; 
+  padding:0; 
+}
+
+/*#map { 
+  position:absolute; 
+  top: 0px;
+  width:100%; 
+  height: 400px;
+}*/
+
+#map{width:100%;height:500px;}
+
+
+/************************
+Tooltip css
+************************/
+
+a.leaflet-popup-close-button {
+  display: none !important;
+}
+
+
+#a2 {
+  color: teal;
+  font-size: 40px;
+}
+
+/******************************
+ Cursor fix 
+ ************************/
+.leaflet-tile {
+  cursor: default;
+}
+
+/********************************
+Under Map Divs
+********************************/
+#under-map {
+  /*float: left;
+  clear: both;
+  width: 100%;
+  */
+}
+
+.under-map-half {
+  position: relative;
+  float: left;  
+  height: 100%;
+}
+
+#under-map-left {
+
+} 
+#under-map-right {
+  float: right;
+  width: 50%    
+}
+.under-map-button {
+  margin-left: 10px;
+  margin-top: 10px;
+  width: 100px;
+  min-height: 40px;
+  float: left;
+  text-align: center; 
+  background-color: #28455a;;
+  color: #fff;
+  border: 10px solid #477ca1;
+  /*background-color: rgb(63,110,143);
+  border: 10px solid #28455a;*/
+  border-radius: 20px;
+  font-family:'Avenir LT W02 35 Light';
+  letter-spacing: 1px;
+  cursor: pointer;
+}
+
+.under-map-button:hover {
+  border: 10px solid #8bb1cc;
+}
+
+.under-map-button.active {
+  background-color: rgb(63,110,143);
+  border: 10px solid #8bb1cc;
+
+}
+
+.under-map-button.active:hover {
+    border: 10px solid #8bb1cc;
+
+}
+
+.under-map-button:hover {
+  border: 10px solid #8bb1cc;
+}
+
+.under-map-button a {
+  line-height: 20px;
+
+}
+
+.under-map-button a:hover {
+  text-decoration: none;
+  cursor: pointer;
+  letter-spacing: 0px !important;
+  color: #fff;
+}
+
+.single-line {
+  line-height: 40px !important
+}
+
+/********************************
+Legend
+********************************/
+.my-legend .legend-title {
+  text-align: center;
+  font-size: 14px;
+  padding-right: 10px;
+  padding-top: 10px;
+  width: 100%;
+  float: right;
+  color: #444;
+  font-family:'Avenir LT W02 35 Light'
+}
+.my-legend .legend-scale ul {
+  margin: 0;
+  padding: 0;
+  float: right;
+  list-style: none;
+  width: 100%;
+  }
+.my-legend .legend-scale ul li {
+  display: block;
+  float: left;
+  width: 5.88%;  
+  text-align: center;
+  font-size: 80%;
+  list-style: none;
+  color: #444;
+  padding-top: 2px;
+  line-height: 110%;
+  }
+
+.my-legend ul.legend-labels li span {
+  display: block;
+  float: right;
+  height: 10px;
+  width: 100%;
+  /*border-left: 2px solid #fff;*/
+  margin-bottom: 5px;
+  }
+.my-legend a {
+  color: #777;
+  }
+
+/********************
+info box
+**************************/
+#info-container.active {
+  position: absolute;
+  display: block;
+  bottom: 10px;
+  left: 10px;
+  max-width: 380px;
+  z-index: 10000;
+  padding: 10px;
+  background-color: #fff; 
+  border: 10px solid #8bb1cc;
+  border-radius: 20px;
+}
+
+#info-container {
+  display: none;
+}
+
+#info-container p {
+  font-size: 12px;
+  line-height: 14px;
+  border-bottom: 0px !important;
+  color: rgb(68, 68, 68);
+  padding: 0px;
+  margin: 0px;
+}
+
+#info-container span {
+  font-size: 12px;
+  line-height: 14px;
+  border-bottom: 0px !important;
+  color: rgb(68, 68, 68);
+
+}
+
+.info-bar.active {
+  position: absolute;
+  top: -10px;   
+  z-index: 2000;
+  width: 0px;
+  height: 0px;
+  border-left: 10px solid transparent;
+  border-right: 10px solid transparent; 
+  border-top: 10px solid #8bb1cc;
+}
+
+
+.close-overlay {
+  text-align: right;
+  font-size: 10px;
+  margin: 0px;
+  padding: 0px;
+  float: right;
+  line-height: 10px;
+  color: #777 !important;
+}
+
+.close-overlay:hover {
+  color: #333 !important;
+  font-weight: bold !important;
+  text-decoration: none !important;
+  cursor: pointer;
+}
+
+#bar-left {left: 60px;}
+#bar-center {left: 190px;}
+#bar-right {left: 320px;}
+
+
+/*******************
+        get rid of attribution
+********************/
+
+a.mapbox-info-toggle.mapbox-icon.mapbox-icon-info {
+  display: none !important;
+}
+
+/*******************
+    Title
+********************/
+#map div#title {
+  font-family:'Avenir LT W02 35 Light';
+  font-size: 30px;
+  color: #fff;
+  z-index: 2;
+  position: absolute;
+  top: 0;
+  left: 0;
+  text-shadow: 0 2px 3px #333,0 -1px 3px #333;
+  padding-top: 10px;
+  padding-left: 10px;
+}
+
+#map div#title p {
+  font-size: 18px;
+  margin-bottom: 0px;
+        padding-bottom: 0px;
+        border-bottom: none !important;
+}
+
+/*body.one-sidebar #map div#title { display: none;}*/
+
+
+/************
+Bars and stuff, upper right
+*********/
+.leaflet-bar {
+  border-radius: 0 !important;
+  background-color: white;
+  border: 0 !important;
+  margin-left: 0px;
+  -moz-box-shadow: 0 0 5px #111;
+      -webkit-box-shadow: 0 0 5px #111;
+      box-shadow: 0 0 5px #111;
+}
+
+.leaflet-bar a, .leaflet-bar a:hover {
+  background-color: #fff !important;
+  border-radius: 0 !important;
+  color: #1e1e1e !important;
+  width: 56px !important;
+  border-color: #333 !important;
+
+}
+
+.leaflet-bar a:hover {
+  background-color: #AFAFAF !important;
+  border-radius: 0 !important ;
+  }
+
+.leaflet-bar span, .leaflet-bar span:hover {
+  background-color: transparent !important;
+  border-radius: 0 !important;
+  color: #1e1e1e !important;
+  /*width: 56px !important;*/
+  border-bottom: 1px solid #333 !important;
+  border-color: #333 !important;
+  display: block;
+}
+
+.leaflet-bar span:last-child {
+  border-bottom: 0px !important;
+}
+
+.leaflet-left .leaflet-control {
+  margin-left: 0px !important;
+  }
+
+.leaflet-bar span:hover {
+  background-color: #AFAFAF !important;
+  border-radius: 0 !important ;
+  cursor: pointer;
+  }
+
+
+
+/**********
+states
+********/
+
+#alaska {
+  padding-bottom:5px; padding-top: 5px; padding-left: 14px;
+}
+
+#hawaii {
+  padding-top:8px; padding-bottom: 8px; padding-left: 8px;
+}
+
+#usa {
+  padding-top:8px; padding-bottom: 8px; padding-left: 14px; padding-right: 12px;
+}
+
+#alaska img {
+  width: 30px;
+}
+
+#hawaii img {
+  width: 31px;
+}
+
+#usa img {
+  width: 30px;
+}
+
+.leaflet-control-container span img {
+  width: 30px !important;
+}
+
+body.node-type-map #usa {
+  padding-bottom: 4px !important;
+}
+
+body.node-type-map #alaska {
+  padding-left: 15px;
+  padding-bottom: 2px !important;
+} 
+body.node-type-map #hawaii {
+  padding-left: 11px;
+  padding-bottom: 4px !important;
+} 
+
+.leaflet-control-attribution.leaflet-control {
+  display: none !important;
+}
+
+.icon_box h2 {
+color: #000 !important;
+}
+
+.icon_list {
+  width: 100%;
+  height: 33px;
+}
+
+.icon_list_item {
+  float: left;
+  width: 35px;
+  height: 33px;
+}
+
+.icon_text {
+  float: left;
+}
+
+.icon_text p {
+  margin-top: 10px !important;
+}
+
+.icon_list img{
+  left: 0px;
+  top: 3px;
+  position: relative;
+  width: 20px;
+  height: 50px;
+}
+
+.leaflet-popup-content h2 {
+  margin-top: 5px;
+  margin-bottom: 5px;
+}
+
+.leaflet-popup-content p {
+  margin-bottom: 0px;
+  margin-top: 0px;
+}
+
+.marker-cluster-medium {
+  background-color: rgba(146, 37, 17, 0.6);
+  }
+.marker-cluster-medium div {
+  background-color: rgba(58, 14, 6, 0.6);
+  }
+
+.marker-cluster-small {
+  background-color: rgba(218,78,46, 0.6);
+  }
+.marker-cluster-small div {
+  background-color: rgba(130,46,27, 0.6);
+  }
+
+.marker-cluster-large {
+  background-color: rgba(253, 156, 115, 0.6);
+  }
+.marker-cluster-large div {
+  background-color: rgba(241, 128, 23, 0.6);
+  }
+
+.marker-cluster {
+  background-clip: padding-box;
+  border-radius: 20px;
+  }
+.marker-cluster div {
+  width: 30px;
+  height: 30px;
+  margin-left: 5px;
+  margin-top: 5px;
+  color: #fff;
+  text-align: center;
+  border-radius: 15px;
+  font: 12px "Helvetica Neue", Arial, Helvetica, sans-serif;
+  }
+.marker-cluster span {
+  line-height: 30px;
+  }
+
+.leaflet-cluster-anim .leaflet-marker-icon, .leaflet-cluster-anim .leaflet-marker-shadow {
+  -webkit-transition: -webkit-transform 0.2s ease-out, opacity 0.2s ease-in;
+  -moz-transition: -moz-transform 0.2s ease-out, opacity 0.2s ease-in;
+  -o-transition: -o-transform 0.2s ease-out, opacity 0.2s ease-in;
+  transition: transform 0.2s ease-out, opacity 0.2s ease-in;
+  }
+
+.marker-cluster-small {
+  background-color: rgba(181, 226, 140, 0.6);
+  }
+.marker-cluster-small div {
+  background-color: rgba(110, 204, 57, 0.6);
+  }
+
+.marker-cluster-medium {
+  background-color: rgba(241, 211, 87, 0.6);
+  }
+.marker-cluster-medium div {
+  background-color: rgba(240, 194, 12, 0.6);
+  }
+
+.marker-cluster-large {
+  background-color: rgba(253, 156, 115, 0.6);
+  }
+.marker-cluster-large div {
+  background-color: rgba(241, 128, 23, 0.6);
+  }
+
+  /* IE 6-8 fallback colors */
+.leaflet-oldie .marker-cluster-small {
+  background-color: rgb(181, 226, 140);
+  }
+.leaflet-oldie .marker-cluster-small div {
+  background-color: rgb(110, 204, 57);
+  }
+
+.leaflet-oldie .marker-cluster-medium {
+  background-color: rgb(241, 211, 87);
+  }
+.leaflet-oldie .marker-cluster-medium div {
+  background-color: rgb(240, 194, 12);
+  }
+
+.leaflet-oldie .marker-cluster-large {
+  background-color: rgb(253, 156, 115);
+  }
+.leaflet-oldie .marker-cluster-large div {
+  background-color: rgb(241, 128, 23);
+}
+
+.marker-cluster {
+  background-clip: padding-box;
+  border-radius: 20px;
+  }
+.marker-cluster div {
+  width: 30px;
+  height: 30px;
+  margin-left: 5px;
+  margin-top: 5px;
+
+  text-align: center;
+  border-radius: 15px;
+  font: 12px "Helvetica Neue", Arial, Helvetica, sans-serif;
+  }
+.marker-cluster span {
+  line-height: 30px;
+  }
+
+
+@media (min-width:901px){
+
+}
+
+@media (max-width:960px){}
+
+@media (max-width:800px){
+  #under-map-right {
+    width: 40%    
+  }
+}
+
+@media (max-width:700px){
+  #map {
+    margin-top: 70px;
+    z-index: 2
+  }
+
+
+/********************
+info box
+**************************/
+  #under-map-left {
+    top: 0;
+    left: 0px;
+    z-index: 0;
+    position: absolute;
+  }
+
+  .info-bar.active {
+    top: 60px;
+  }
+
+  #info-container.active {
+    top: 10px !important;
+    bottom: auto;
+  }
+
+  .under-map-button  {
+    margin-top: 0;
+  }
+/********************
+legend
+**************************/
+  #under-map-right  {
+    width: 100%;  
+  }
+  #under-map-left {
+    width: 102%;
+  }
+}
+
+@media (max-width:570px){
+.leaflet-right .leaflet-control { margin-right: 0px}
+
+  #map{
+    height:320px !important;
+  }
+  
+  #map div#title { 
+    top: auto;
+    bottom: 0;
+    padding-top: 0;
+    padding-bottom: 10px;
+    font-size: 20px;
+  }
+}
+
+@media (max-width:480px){
+  #map{
+    height:255px !important;
+    margin-top: 40px;
+  }
+  
+  #map div#title { 
+    padding-bottom: 5px;
+  }
+
+  .under-map-button {
+    border: 0;
+    margin-left: 2px;
+    width: 32.6%;
+    border-radius: 0px;
+    margin-bottom: 0px;
+  }
+
+  .under-map-button:hover, .under-map-button.active, .under-map-button.active:hover  {
+    border: 0;
+  }
+
+  .under-map-button:first-child {
+    margin-left: 0px;
+  }
+
+  .position-2, .position-1, .position-3 {
+    line-height: 40px;
+  }
+
+  #info-container.active {
+    width: 90%;
+    top: 0px !important;
+    left: 0px;    
+    border-radius: 0;
+    padding-left: 5px;
+  }
+
+  #info-container p {
+    font-size: 10px;
+    line-height: 12px;
+  }
+
+  .icon_list_item {
+    width: 27px;
+  }
+
+  .icon_text  {
+    float: initial;
+    padding-top:1px;
+  }
+}
+
+@media (max-width:339px) {
+  .position-1, .position-3, .position-2 {
+    line-height: 20px;
+  }
+
+}
+
+@media (max-width:320px){
+  #map{height:320px !important;}
+
+}
+
+.leaflet-container img.tooltip-image {
+  max-width: 300px !important;
+}
+
+.leaflet-popup-content h2 {
+  text-transform: none !important;
+  font-weight: bold
+}
+
+</style>
+
+<div id="iframe_container">
+  <div id='map'>
+    <div class="leaflet-top leaflet-right">
+      <div style="top: 65px;" class="leaflet-control-zoom leaflet-bar leaflet-control">
+        <span id="usa" href=""><img src="/sites/prod/files/USRetina.png"></span>
+        <span id="hawaii" href=""><img src="/sites/prod/files/hawaiiRetina.png"></span>
+        <span id="alaska" href=""><img src="/sites/prod/files/alaskaRetina.png"></span>
+      </div>
+    </div>  
+    <div id="title">NCEBPC Map (2012-2015)
+      <!-- <p>With plants in development. Click on the numbers to see the sites.</p> -->
+    </div>
+  </div>
+  
+
+<script type="text/javascript">
+/*
+ Copyright (c) 2012, Smartrak, David Leaver
+ Leaflet.markercluster is an open-source JavaScript library for Marker Clustering on leaflet powered maps.
+ https://github.com/danzel/Leaflet.markercluster
+*/
+
+// (function ($) { 
+(function(){L.MarkerClusterGroup=L.FeatureGroup.extend({options:{maxClusterRadius:80,iconCreateFunction:null,spiderfyOnMaxZoom:!0,showCoverageOnHover:!0,zoomToBoundsOnClick:!0,singleMarkerMode:!1,disableClusteringAtZoom:null,removeOutsideVisibleBounds:!0,animateAddingMarkers:!1,spiderfyDistanceMultiplier:1,polygonOptions:{}},initialize:function(t){L.Util.setOptions(this,t),this.options.iconCreateFunction||(this.options.iconCreateFunction=this._defaultIconCreateFunction),L.FeatureGroup.prototype.initialize.call(this,[]),this._inZoomAnimation=0,this._needsClustering=[],this._needsRemoving=[],this._currentShownBounds=null},addLayer:function(t){if(t instanceof L.LayerGroup){var e=[];for(var i in t._layers)e.push(t._layers[i]);return this.addLayers(e)}if(!this._map)return this._needsClustering.push(t),this;if(this.hasLayer(t))return this;this._unspiderfy&&this._unspiderfy(),this._addLayer(t,this._maxZoom);var n=t,r=this._map.getZoom();if(t.__parent)for(;n.__parent._zoom>=r;)n=n.__parent;return this._currentShownBounds.contains(n.getLatLng())&&(this.options.animateAddingMarkers?this._animationAddLayer(t,n):this._animationAddLayerNonAnimated(t,n)),this},removeLayer:function(t){return this._map?t.__parent?(this._unspiderfy&&(this._unspiderfy(),this._unspiderfyLayer(t)),this._removeLayer(t,!0),t._icon&&(L.FeatureGroup.prototype.removeLayer.call(this,t),t.setOpacity(1)),this):this:(!this._arraySplice(this._needsClustering,t)&&this.hasLayer(t)&&this._needsRemoving.push(t),this)},addLayers:function(t){var e,i,n;if(!this._map)return this._needsClustering=this._needsClustering.concat(t),this;for(e=0,i=t.length;i>e;e++)if(n=t[e],!this.hasLayer(n)&&(this._addLayer(n,this._maxZoom),n.__parent&&2===n.__parent.getChildCount())){var r=n.__parent.getAllChildMarkers(),s=r[0]===n?r[1]:r[0];L.FeatureGroup.prototype.removeLayer.call(this,s)}for(e in this._layers)n=this._layers[e],n instanceof L.MarkerCluster&&n._iconNeedsUpdate&&n._updateIcon();return this._topClusterLevel._recursivelyAddChildrenToMap(null,this._zoom,this._currentShownBounds),this},removeLayers:function(t){var e,i,n;if(!this._map){for(e=0,i=t.length;i>e;e++)this._arraySplice(this._needsClustering,t[e]);return this}for(e=0,i=t.length;i>e;e++)n=t[e],n.__parent&&(this._removeLayer(n,!0,!0),n._icon&&(L.FeatureGroup.prototype.removeLayer.call(this,n),n.setOpacity(1)));this._topClusterLevel._recursivelyAddChildrenToMap(null,this._zoom,this._currentShownBounds);for(e in this._layers)n=this._layers[e],n instanceof L.MarkerCluster&&n._updateIcon();return this},clearLayers:function(){this._map||(this._needsClustering=[],delete this._gridClusters,delete this._gridUnclustered),this._noanimationUnspiderfy&&this._noanimationUnspiderfy();for(var t in this._layers)L.FeatureGroup.prototype.removeLayer.call(this,this._layers[t]);return this.eachLayer(function(t){delete t.__parent}),this._map&&this._generateInitialClusters(),this},getBounds:function(){var t=new L.LatLngBounds;if(this._topClusterLevel)t.extend(this._topClusterLevel._bounds);else for(var e=this._needsClustering.length-1;e>=0;e--)t.extend(this._needsClustering[e].getLatLng());return t},eachLayer:function(t,e){var i,n=this._needsClustering.slice();for(this._topClusterLevel&&this._topClusterLevel.getAllChildMarkers(n),i=n.length-1;i>=0;i--)t.call(e,n[i])},hasLayer:function(t){if(t._noHas)return!1;var e,i=this._needsClustering;for(e=i.length-1;e>=0;e--)if(i[e]===t)return!0;for(i=this._needsRemoving,e=i.length-1;e>=0;e--)if(i[e]===t)return!1;return!(!t.__parent||t.__parent._group!==this)},zoomToShowLayer:function(t,e){var i=function(){if((t._icon||t.__parent._icon)&&!this._inZoomAnimation)if(this._map.off("moveend",i,this),this.off("animationend",i,this),t._icon)e();else if(t.__parent._icon){var n=function(){this.off("spiderfied",n,this),e()};this.on("spiderfied",n,this),t.__parent.spiderfy()}};t._icon?e():t.__parent._zoom<this._map.getZoom()?(this._map.on("moveend",i,this),t._icon||this._map.panTo(t.getLatLng())):(this._map.on("moveend",i,this),this.on("animationend",i,this),this._map.setView(t.getLatLng(),t.__parent._zoom+1),t.__parent.zoomToBounds())},onAdd:function(t){this._map=t;var e,i,n;for(this._gridClusters||this._generateInitialClusters(),e=0,i=this._needsRemoving.length;i>e;e++)n=this._needsRemoving[e],this._removeLayer(n);for(this._needsRemoving=[],e=0,i=this._needsClustering.length;i>e;e++)n=this._needsClustering[e],n.__parent||this._addLayer(n,this._maxZoom);this._needsClustering=[],this._map.on("zoomend",this._zoomEnd,this),this._map.on("moveend",this._moveEnd,this),this._spiderfierOnAdd&&this._spiderfierOnAdd(),this._bindEvents(),this._zoom=this._map.getZoom(),this._currentShownBounds=this._getExpandedVisibleBounds(),this._topClusterLevel._recursivelyAddChildrenToMap(null,this._zoom,this._currentShownBounds)},onRemove:function(t){t.off("zoomend",this._zoomEnd,this),t.off("moveend",this._moveEnd,this),this._unbindEvents(),this._map._mapPane.className=this._map._mapPane.className.replace(" leaflet-cluster-anim",""),this._spiderfierOnRemove&&this._spiderfierOnRemove();for(var e in this._layers)L.FeatureGroup.prototype.removeLayer.call(this,this._layers[e]);this._map=null},_arraySplice:function(t,e){for(var i=t.length-1;i>=0;i--)if(t[i]===e)return t.splice(i,1),!0},_removeLayer:function(t,e,i){var n=this._gridClusters,r=this._gridUnclustered,s=this._map;if(e)for(var o=this._maxZoom;o>=0&&r[o].removeObject(t,s.project(t.getLatLng(),o));o--);var a,l=t.__parent,_=l._markers;for(this._arraySplice(_,t);l&&(l._childCount--,!(0>l._zoom));)e&&1>=l._childCount?(a=l._markers[0]===t?l._markers[1]:l._markers[0],n[l._zoom].removeObject(l,s.project(l._cLatLng,l._zoom)),r[l._zoom].addObject(a,s.project(a.getLatLng(),l._zoom)),this._arraySplice(l.__parent._childClusters,l),l.__parent._markers.push(a),a.__parent=l.__parent,l._icon&&(L.FeatureGroup.prototype.removeLayer.call(this,l),i||L.FeatureGroup.prototype.addLayer.call(this,a))):(l._recalculateBounds(),i&&l._icon||l._updateIcon()),l=l.__parent;delete t.__parent},_propagateEvent:function(t){t.target instanceof L.MarkerCluster&&(t.type="cluster"+t.type),L.FeatureGroup.prototype._propagateEvent.call(this,t)},_defaultIconCreateFunction:function(t){var e=t.getChildCount(),i=" marker-cluster-";return i+=10>e?"small":100>e?"medium":"large",new L.DivIcon({html:"<div><span>"+e+"</span></div>",className:"marker-cluster"+i,iconSize:new L.Point(40,40)})},_bindEvents:function(){var t=null,e=this._map,i=this.options.spiderfyOnMaxZoom,n=this.options.showCoverageOnHover,r=this.options.zoomToBoundsOnClick;(i||r)&&this.on("clusterclick",function(t){e.getMaxZoom()===e.getZoom()?i&&t.layer.spiderfy():r&&t.layer.zoomToBounds()},this),n&&(this.on("clustermouseover",function(i){this._inZoomAnimation||(t&&e.removeLayer(t),i.layer.getChildCount()>2&&i.layer!==this._spiderfied&&(t=new L.Polygon(i.layer.getConvexHull(),this.options.polygonOptions),e.addLayer(t)))},this),this.on("clustermouseout",function(){t&&(e.removeLayer(t),t=null)},this),e.on("zoomend",function(){t&&(e.removeLayer(t),t=null)},this),e.on("layerremove",function(i){t&&i.layer===this&&(e.removeLayer(t),t=null)},this))},_unbindEvents:function(){var t=this.options.spiderfyOnMaxZoom,e=this.options.showCoverageOnHover,i=this.options.zoomToBoundsOnClick,n=this._map;(t||i)&&this.off("clusterclick",null,this),e&&(this.off("clustermouseover",null,this),this.off("clustermouseout",null,this),n.off("zoomend",null,this),n.off("layerremove",null,this))},_zoomEnd:function(){this._map&&(this._mergeSplitClusters(),this._zoom=this._map._zoom,this._currentShownBounds=this._getExpandedVisibleBounds())},_moveEnd:function(){if(!this._inZoomAnimation){var t=this._getExpandedVisibleBounds();this._topClusterLevel._recursivelyRemoveChildrenFromMap(this._currentShownBounds,this._zoom,t),this._topClusterLevel._recursivelyAddChildrenToMap(null,this._zoom,t),this._currentShownBounds=t}},_generateInitialClusters:function(){var t=this._map.getMaxZoom(),e=this.options.maxClusterRadius;this.options.disableClusteringAtZoom&&(t=this.options.disableClusteringAtZoom-1),this._maxZoom=t,this._gridClusters={},this._gridUnclustered={};for(var i=t;i>=0;i--)this._gridClusters[i]=new L.DistanceGrid(e),this._gridUnclustered[i]=new L.DistanceGrid(e);this._topClusterLevel=new L.MarkerCluster(this,-1)},_addLayer:function(t,e){var i,n,r=this._gridClusters,s=this._gridUnclustered;for(this.options.singleMarkerMode&&(t.options.icon=this.options.iconCreateFunction({getChildCount:function(){return 1},getAllChildMarkers:function(){return[t]}}));e>=0;e--){i=this._map.project(t.getLatLng(),e);var o=r[e].getNearObject(i);if(o)return o._addChild(t),t.__parent=o,void 0;if(o=s[e].getNearObject(i)){var a=o.__parent;a&&this._removeLayer(o,!1);var l=new L.MarkerCluster(this,e,o,t);r[e].addObject(l,this._map.project(l._cLatLng,e)),o.__parent=l,t.__parent=l;var _=l;for(n=e-1;n>a._zoom;n--)_=new L.MarkerCluster(this,n,_),r[n].addObject(_,this._map.project(o.getLatLng(),n));for(a._addChild(_),n=e;n>=0&&s[n].removeObject(o,this._map.project(o.getLatLng(),n));n--);return}s[e].addObject(t,i)}this._topClusterLevel._addChild(t),t.__parent=this._topClusterLevel},_mergeSplitClusters:function(){this._zoom<this._map._zoom?(this._animationStart(),this._topClusterLevel._recursivelyRemoveChildrenFromMap(this._currentShownBounds,this._zoom,this._getExpandedVisibleBounds()),this._animationZoomIn(this._zoom,this._map._zoom)):this._zoom>this._map._zoom?(this._animationStart(),this._animationZoomOut(this._zoom,this._map._zoom)):this._moveEnd()},_getExpandedVisibleBounds:function(){if(!this.options.removeOutsideVisibleBounds)return this.getBounds();var t=this._map,e=t.getBounds(),i=e._southWest,n=e._northEast,r=L.Browser.mobile?0:Math.abs(i.lat-n.lat),s=L.Browser.mobile?0:Math.abs(i.lng-n.lng);return new L.LatLngBounds(new L.LatLng(i.lat-r,i.lng-s,!0),new L.LatLng(n.lat+r,n.lng+s,!0))},_animationAddLayerNonAnimated:function(t,e){if(e===t)L.FeatureGroup.prototype.addLayer.call(this,t);else if(2===e._childCount){e._addToMap();var i=e.getAllChildMarkers();L.FeatureGroup.prototype.removeLayer.call(this,i[0]),L.FeatureGroup.prototype.removeLayer.call(this,i[1])}else e._updateIcon()}}),L.MarkerClusterGroup.include(L.DomUtil.TRANSITION?{_animationStart:function(){this._map._mapPane.className+=" leaflet-cluster-anim",this._inZoomAnimation++},_animationEnd:function(){this._map&&(this._map._mapPane.className=this._map._mapPane.className.replace(" leaflet-cluster-anim","")),this._inZoomAnimation--,this.fire("animationend")},_animationZoomIn:function(t,e){var i,n=this,r=this._getExpandedVisibleBounds();this._topClusterLevel._recursively(r,t,0,function(s){var o,a=s._latlng,l=s._markers;for(s._isSingleParent()&&t+1===e?(L.FeatureGroup.prototype.removeLayer.call(n,s),s._recursivelyAddChildrenToMap(null,e,r)):(s.setOpacity(0),s._recursivelyAddChildrenToMap(a,e,r)),i=l.length-1;i>=0;i--)o=l[i],r.contains(o._latlng)||L.FeatureGroup.prototype.removeLayer.call(n,o)}),this._forceLayout();var s,o;n._topClusterLevel._recursivelyBecomeVisible(r,e);for(s in n._layers)o=n._layers[s],o instanceof L.MarkerCluster||!o._icon||o.setOpacity(1);n._topClusterLevel._recursively(r,t,e,function(t){t._recursivelyRestoreChildPositions(e)}),setTimeout(function(){n._topClusterLevel._recursively(r,t,0,function(t){L.FeatureGroup.prototype.removeLayer.call(n,t),t.setOpacity(1)}),n._animationEnd()},200)},_animationZoomOut:function(t,e){this._animationZoomOutSingle(this._topClusterLevel,t-1,e),this._topClusterLevel._recursivelyAddChildrenToMap(null,e,this._getExpandedVisibleBounds()),this._topClusterLevel._recursivelyRemoveChildrenFromMap(this._currentShownBounds,t,this._getExpandedVisibleBounds())},_animationZoomOutSingle:function(t,e,i){var n=this._getExpandedVisibleBounds();t._recursivelyAnimateChildrenInAndAddSelfToMap(n,e+1,i);var r=this;this._forceLayout(),t._recursivelyBecomeVisible(n,i),setTimeout(function(){if(1===t._childCount){var s=t._markers[0];s.setLatLng(s.getLatLng()),s.setOpacity(1)}else t._recursively(n,i,0,function(t){t._recursivelyRemoveChildrenFromMap(n,e+1)});r._animationEnd()},200)},_animationAddLayer:function(t,e){var i=this;L.FeatureGroup.prototype.addLayer.call(this,t),e!==t&&(e._childCount>2?(e._updateIcon(),this._forceLayout(),this._animationStart(),t._setPos(this._map.latLngToLayerPoint(e.getLatLng())),t.setOpacity(0),setTimeout(function(){L.FeatureGroup.prototype.removeLayer.call(i,t),t.setOpacity(1),i._animationEnd()},200)):(this._forceLayout(),i._animationStart(),i._animationZoomOutSingle(e,this._map.getMaxZoom(),this._map.getZoom())))},_forceLayout:function(){L.Util.falseFn(document.body.offsetWidth)}}:{_animationStart:function(){},_animationZoomIn:function(t,e){this._topClusterLevel._recursivelyRemoveChildrenFromMap(this._currentShownBounds,t),this._topClusterLevel._recursivelyAddChildrenToMap(null,e,this._getExpandedVisibleBounds())},_animationZoomOut:function(t,e){this._topClusterLevel._recursivelyRemoveChildrenFromMap(this._currentShownBounds,t),this._topClusterLevel._recursivelyAddChildrenToMap(null,e,this._getExpandedVisibleBounds())},_animationAddLayer:function(t,e){this._animationAddLayerNonAnimated(t,e)}}),L.MarkerCluster=L.Marker.extend({initialize:function(t,e,i,n){L.Marker.prototype.initialize.call(this,i?i._cLatLng||i.getLatLng():new L.LatLng(0,0),{icon:this}),this._group=t,this._zoom=e,this._markers=[],this._childClusters=[],this._childCount=0,this._iconNeedsUpdate=!0,this._bounds=new L.LatLngBounds,i&&this._addChild(i),n&&this._addChild(n)},getAllChildMarkers:function(t){t=t||[];for(var e=this._childClusters.length-1;e>=0;e--)this._childClusters[e].getAllChildMarkers(t);for(var i=this._markers.length-1;i>=0;i--)t.push(this._markers[i]);return t},getChildCount:function(){return this._childCount},zoomToBounds:function(){this._group._map.fitBounds(this._bounds)},getBounds:function(){var t=new L.LatLngBounds;return t.extend(this._bounds),t},_updateIcon:function(){this._iconNeedsUpdate=!0,this._icon&&this.setIcon(this)},createIcon:function(){return this._iconNeedsUpdate&&(this._iconObj=this._group.options.iconCreateFunction(this),this._iconNeedsUpdate=!1),this._iconObj.createIcon()},createShadow:function(){return this._iconObj.createShadow()},_addChild:function(t,e){this._iconNeedsUpdate=!0,this._expandBounds(t),t instanceof L.MarkerCluster?(e||(this._childClusters.push(t),t.__parent=this),this._childCount+=t._childCount):(e||this._markers.push(t),this._childCount++),this.__parent&&this.__parent._addChild(t,!0)},_expandBounds:function(t){var e,i=t._wLatLng||t._latlng;t instanceof L.MarkerCluster?(this._bounds.extend(t._bounds),e=t._childCount):(this._bounds.extend(i),e=1),this._cLatLng||(this._cLatLng=t._cLatLng||i);var n=this._childCount+e;this._wLatLng?(this._wLatLng.lat=(i.lat*e+this._wLatLng.lat*this._childCount)/n,this._wLatLng.lng=(i.lng*e+this._wLatLng.lng*this._childCount)/n):this._latlng=this._wLatLng=new L.LatLng(i.lat,i.lng)},_addToMap:function(t){t&&(this._backupLatlng=this._latlng,this.setLatLng(t)),this._noHas=!0,L.FeatureGroup.prototype.addLayer.call(this._group,this),delete this._noHas},_recursivelyAnimateChildrenIn:function(t,e,i){this._recursively(t,0,i-1,function(t){var i,n,r=t._markers;for(i=r.length-1;i>=0;i--)n=r[i],n._icon&&(n._setPos(e),n.setOpacity(0))},function(t){var i,n,r=t._childClusters;for(i=r.length-1;i>=0;i--)n=r[i],n._icon&&(n._setPos(e),n.setOpacity(0))})},_recursivelyAnimateChildrenInAndAddSelfToMap:function(t,e,i){this._recursively(t,i,0,function(n){n._recursivelyAnimateChildrenIn(t,n._group._map.latLngToLayerPoint(n.getLatLng()).round(),e),n._isSingleParent()&&e-1===i?(n.setOpacity(1),n._recursivelyRemoveChildrenFromMap(t,e)):n.setOpacity(0),n._addToMap()})},_recursivelyBecomeVisible:function(t,e){this._recursively(t,0,e,null,function(t){t.setOpacity(1)})},_recursivelyAddChildrenToMap:function(t,e,i){this._recursively(i,-1,e,function(n){if(e!==n._zoom)for(var r=n._markers.length-1;r>=0;r--){var s=n._markers[r];i.contains(s._latlng)&&(t&&(s._backupLatlng=s.getLatLng(),s.setLatLng(t),s.setOpacity(0)),s._noHas=!0,L.FeatureGroup.prototype.addLayer.call(n._group,s),delete s._noHas)}},function(e){e._addToMap(t)})},_recursivelyRestoreChildPositions:function(t){for(var e=this._markers.length-1;e>=0;e--){var i=this._markers[e];i._backupLatlng&&(i.setLatLng(i._backupLatlng),delete i._backupLatlng)}if(t-1===this._zoom)for(var n=this._childClusters.length-1;n>=0;n--)this._childClusters[n]._restorePosition();else for(var r=this._childClusters.length-1;r>=0;r--)this._childClusters[r]._recursivelyRestoreChildPositions(t)},_restorePosition:function(){this._backupLatlng&&(this.setLatLng(this._backupLatlng),delete this._backupLatlng)},_recursivelyRemoveChildrenFromMap:function(t,e,i){var n,r;this._recursively(t,-1,e-1,function(t){for(r=t._markers.length-1;r>=0;r--)n=t._markers[r],i&&i.contains(n._latlng)||(L.FeatureGroup.prototype.removeLayer.call(t._group,n),n.setOpacity(1))},function(t){for(r=t._childClusters.length-1;r>=0;r--)n=t._childClusters[r],i&&i.contains(n._latlng)||((!L.FeatureGroup.prototype.hasLayer||L.FeatureGroup.prototype.hasLayer.call(t._group,n))&&L.FeatureGroup.prototype.removeLayer.call(t._group,n),n.setOpacity(1))})},_recursively:function(t,e,i,n,r){var s,o,a=this._childClusters,l=this._zoom;if(e>l)for(s=a.length-1;s>=0;s--)o=a[s],t.intersects(o._bounds)&&o._recursively(t,e,i,n,r);else if(n&&n(this),r&&this._zoom===i&&r(this),i>l)for(s=a.length-1;s>=0;s--)o=a[s],t.intersects(o._bounds)&&o._recursively(t,e,i,n,r)},_recalculateBounds:function(){var t,e=this._markers,i=this._childClusters;for(this._bounds=new L.LatLngBounds,delete this._wLatLng,t=e.length-1;t>=0;t--)this._expandBounds(e[t]);for(t=i.length-1;t>=0;t--)this._expandBounds(i[t])},_isSingleParent:function(){return this._childClusters.length>0&&this._childClusters[0]._childCount===this._childCount}}),L.DistanceGrid=function(t){this._cellSize=t,this._sqCellSize=t*t,this._grid={},this._objectPoint={}},L.DistanceGrid.prototype={addObject:function(t,e){var i=this._getCoord(e.x),n=this._getCoord(e.y),r=this._grid,s=r[n]=r[n]||{},o=s[i]=s[i]||[],a=L.Util.stamp(t);this._objectPoint[a]=e,o.push(t)},updateObject:function(t,e){this.removeObject(t),this.addObject(t,e)},removeObject:function(t,e){var i,n,r=this._getCoord(e.x),s=this._getCoord(e.y),o=this._grid,a=o[s]=o[s]||{},l=a[r]=a[r]||[];for(delete this._objectPoint[L.Util.stamp(t)],i=0,n=l.length;n>i;i++)if(l[i]===t)return l.splice(i,1),1===n&&delete a[r],!0},eachObject:function(t,e){var i,n,r,s,o,a,l,_=this._grid;for(i in _){o=_[i];for(n in o)for(a=o[n],r=0,s=a.length;s>r;r++)l=t.call(e,a[r]),l&&(r--,s--)}},getNearObject:function(t){var e,i,n,r,s,o,a,l,_=this._getCoord(t.x),h=this._getCoord(t.y),u=this._objectPoint,d=this._sqCellSize,p=null;for(e=h-1;h+1>=e;e++)if(r=this._grid[e])for(i=_-1;_+1>=i;i++)if(s=r[i])for(n=0,o=s.length;o>n;n++)a=s[n],l=this._sqDist(u[L.Util.stamp(a)],t),d>l&&(d=l,p=a);return p},_getCoord:function(t){return Math.floor(t/this._cellSize)},_sqDist:function(t,e){var i=e.x-t.x,n=e.y-t.y;return i*i+n*n}},function(){L.QuickHull={getDistant:function(t,e){var i=e[1].lat-e[0].lat,n=e[0].lng-e[1].lng;return n*(t.lat-e[0].lat)+i*(t.lng-e[0].lng)},findMostDistantPointFromBaseLine:function(t,e){var i,n,r,s=0,o=null,a=[];for(i=e.length-1;i>=0;i--)n=e[i],r=this.getDistant(n,t),r>0&&(a.push(n),r>s&&(s=r,o=n));return{maxPoint:o,newPoints:a}},buildConvexHull:function(t,e){var i=[],n=this.findMostDistantPointFromBaseLine(t,e);return n.maxPoint?(i=i.concat(this.buildConvexHull([t[0],n.maxPoint],n.newPoints)),i=i.concat(this.buildConvexHull([n.maxPoint,t[1]],n.newPoints))):[t]},getConvexHull:function(t){var e,i=!1,n=!1,r=null,s=null;for(e=t.length-1;e>=0;e--){var o=t[e];(i===!1||o.lat>i)&&(r=o,i=o.lat),(n===!1||n>o.lat)&&(s=o,n=o.lat)}var a=[].concat(this.buildConvexHull([s,r],t),this.buildConvexHull([r,s],t));return a}}}(),L.MarkerCluster.include({getConvexHull:function(){var t,e,i,n=this.getAllChildMarkers(),r=[],s=[];for(i=n.length-1;i>=0;i--)e=n[i].getLatLng(),r.push(e);for(t=L.QuickHull.getConvexHull(r),i=t.length-1;i>=0;i--)s.push(t[i][0]);return s}}),L.MarkerCluster.include({_2PI:2*Math.PI,_circleFootSeparation:25,_circleStartAngle:Math.PI/6,_spiralFootSeparation:28,_spiralLengthStart:11,_spiralLengthFactor:5,_circleSpiralSwitchover:9,spiderfy:function(){if(this._group._spiderfied!==this&&!this._group._inZoomAnimation){var t,e=this.getAllChildMarkers(),i=this._group,n=i._map,r=n.latLngToLayerPoint(this._latlng);this._group._unspiderfy(),this._group._spiderfied=this,e.length>=this._circleSpiralSwitchover?t=this._generatePointsSpiral(e.length,r):(r.y+=10,t=this._generatePointsCircle(e.length,r)),this._animationSpiderfy(e,t)}},unspiderfy:function(t){this._group._inZoomAnimation||(this._animationUnspiderfy(t),this._group._spiderfied=null)},_generatePointsCircle:function(t,e){var i,n,r=this._group.options.spiderfyDistanceMultiplier*this._circleFootSeparation*(2+t),s=r/this._2PI,o=this._2PI/t,a=[];for(a.length=t,i=t-1;i>=0;i--)n=this._circleStartAngle+i*o,a[i]=new L.Point(e.x+s*Math.cos(n),e.y+s*Math.sin(n))._round();return a},_generatePointsSpiral:function(t,e){var i,n=this._group.options.spiderfyDistanceMultiplier*this._spiralLengthStart,r=this._group.options.spiderfyDistanceMultiplier*this._spiralFootSeparation,s=this._group.options.spiderfyDistanceMultiplier*this._spiralLengthFactor,o=0,a=[];for(a.length=t,i=t-1;i>=0;i--)o+=r/n+5e-4*i,a[i]=new L.Point(e.x+n*Math.cos(o),e.y+n*Math.sin(o))._round(),n+=this._2PI*s/o;return a},_noanimationUnspiderfy:function(){var t,e,i=this._group,n=i._map,r=this.getAllChildMarkers();for(this.setOpacity(1),e=r.length-1;e>=0;e--)t=r[e],L.FeatureGroup.prototype.removeLayer.call(i,t),t._preSpiderfyLatlng&&(t.setLatLng(t._preSpiderfyLatlng),delete t._preSpiderfyLatlng),t.setZIndexOffset(0),t._spiderLeg&&(n.removeLayer(t._spiderLeg),delete t._spiderLeg)}}),L.MarkerCluster.include(L.DomUtil.TRANSITION?{SVG_ANIMATION:function(){return(""+document.createElementNS("http://www.w3.org/2000/svg","animate")).indexOf("SVGAnimate")>-1}(),_animationSpiderfy:function(t,e){var i,n,r,s,o=this,a=this._group,l=a._map,_=l.latLngToLayerPoint(this._latlng);for(i=t.length-1;i>=0;i--)n=t[i],n.setZIndexOffset(1e6),n.setOpacity(0),n._noHas=!0,L.FeatureGroup.prototype.addLayer.call(a,n),delete n._noHas,n._setPos(_);a._forceLayout(),a._animationStart();var h=L.Path.SVG?0:.3,u=L.Path.SVG_NS;for(i=t.length-1;i>=0;i--)if(s=l.layerPointToLatLng(e[i]),n=t[i],n._preSpiderfyLatlng=n._latlng,n.setLatLng(s),n.setOpacity(1),r=new L.Polyline([o._latlng,s],{weight:1.5,color:"#222",opacity:h}),l.addLayer(r),n._spiderLeg=r,L.Path.SVG&&this.SVG_ANIMATION){var d=r._path.getTotalLength();r._path.setAttribute("stroke-dasharray",d+","+d);var p=document.createElementNS(u,"animate");p.setAttribute("attributeName","stroke-dashoffset"),p.setAttribute("begin","indefinite"),p.setAttribute("from",d),p.setAttribute("to",0),p.setAttribute("dur",.25),r._path.appendChild(p),p.beginElement(),p=document.createElementNS(u,"animate"),p.setAttribute("attributeName","stroke-opacity"),p.setAttribute("attributeName","stroke-opacity"),p.setAttribute("begin","indefinite"),p.setAttribute("from",0),p.setAttribute("to",.5),p.setAttribute("dur",.25),r._path.appendChild(p),p.beginElement()}if(o.setOpacity(.3),L.Path.SVG)for(this._group._forceLayout(),i=t.length-1;i>=0;i--)n=t[i]._spiderLeg,n.options.opacity=.5,n._path.setAttribute("stroke-opacity",.5);setTimeout(function(){a._animationEnd(),a.fire("spiderfied")},200)},_animationUnspiderfy:function(t){var e,i,n,r=this._group,s=r._map,o=t?s._latLngToNewLayerPoint(this._latlng,t.zoom,t.center):s.latLngToLayerPoint(this._latlng),a=this.getAllChildMarkers(),l=L.Path.SVG&&this.SVG_ANIMATION;for(r._animationStart(),this.setOpacity(1),i=a.length-1;i>=0;i--)e=a[i],e._preSpiderfyLatlng&&(e.setLatLng(e._preSpiderfyLatlng),delete e._preSpiderfyLatlng,e._setPos(o),e.setOpacity(0),l&&(n=e._spiderLeg._path.childNodes[0],n.setAttribute("to",n.getAttribute("from")),n.setAttribute("from",0),n.beginElement(),n=e._spiderLeg._path.childNodes[1],n.setAttribute("from",.5),n.setAttribute("to",0),n.setAttribute("stroke-opacity",0),n.beginElement(),e._spiderLeg._path.setAttribute("stroke-opacity",0)));setTimeout(function(){var t=0;for(i=a.length-1;i>=0;i--)e=a[i],e._spiderLeg&&t++;for(i=a.length-1;i>=0;i--)e=a[i],e._spiderLeg&&(e.setOpacity(1),e.setZIndexOffset(0),t>1&&L.FeatureGroup.prototype.removeLayer.call(r,e),s.removeLayer(e._spiderLeg),delete e._spiderLeg);r._animationEnd()},200)}}:{_animationSpiderfy:function(t,e){var i,n,r,s,o=this._group,a=o._map;for(i=t.length-1;i>=0;i--)s=a.layerPointToLatLng(e[i]),n=t[i],n._preSpiderfyLatlng=n._latlng,n.setLatLng(s),n.setZIndexOffset(1e6),L.FeatureGroup.prototype.addLayer.call(o,n),r=new L.Polyline([this._latlng,s],{weight:1.5,color:"#222"}),a.addLayer(r),n._spiderLeg=r;this.setOpacity(.3),o.fire("spiderfied")},_animationUnspiderfy:function(){this._noanimationUnspiderfy()}}),L.MarkerClusterGroup.include({_spiderfied:null,_spiderfierOnAdd:function(){this._map.on("click",this._unspiderfyWrapper,this),this._map.options.zoomAnimation?this._map.on("zoomstart",this._unspiderfyZoomStart,this):this._map.on("zoomend",this._unspiderfyWrapper,this),L.Path.SVG&&!L.Browser.touch&&this._map._initPathRoot()},_spiderfierOnRemove:function(){this._map.off("click",this._unspiderfyWrapper,this),this._map.off("zoomstart",this._unspiderfyZoomStart,this),this._map.off("zoomanim",this._unspiderfyZoomAnim,this),this._unspiderfy()},_unspiderfyZoomStart:function(){this._map&&this._map.on("zoomanim",this._unspiderfyZoomAnim,this)},_unspiderfyZoomAnim:function(t){L.DomUtil.hasClass(this._map._mapPane,"leaflet-touching")||(this._map.off("zoomanim",this._unspiderfyZoomAnim,this),this._unspiderfy(t))},_unspiderfyWrapper:function(){this._unspiderfy()},_unspiderfy:function(t){this._spiderfied&&this._spiderfied.unspiderfy(t)},_noanimationUnspiderfy:function(){this._spiderfied&&this._spiderfied._noanimationUnspiderfy()},_unspiderfyLayer:function(t){t._spiderLeg&&(L.FeatureGroup.prototype.removeLayer.call(this,t),t.setOpacity(1),t.setZIndexOffset(0),this._map.removeLayer(t._spiderLeg),delete t._spiderLeg)}})})(this);
+// }(jQuery));  
+
+
+var points = 
+
+{
+"type": "FeatureCollection",
+                                                                                
+"features": [
+
+{
+      "type": "Feature",
+      "properties": {
+        "Team_Name": "Navillum Nanotechnologies from University of Utah",
+        "Description": "Nanotechnologies has developed a method for low cost commercial scale production of semiconducting nanocrystals, such as quantum dots. These unique nanomaterials will accelerate the development of more energy efficient products including televisions, tablet displays and LED lighting. They also improve the energy-harnessing capabilities of solar panels, making future generations of panels more efficient.",
+        "Run_By": "University of Colorado Cleantech New",
+        "Region": "Western Midwest",
+        "Institution": "University of Utah",
+        "Position": "Finalist",
+        "Year": 2012,
+        "Address": "201 Presidents Circle",
+        "City": "Salt Lake City",
+        "State": "UT",
+        "Zipcode": 84112,
+        "geo_accuracy": "house",
+        "marker_color": "9c89cc",
+        "marker_symbol": "circle",
+        "image": "http://navillum.com/wp-content/uploads/2015/05/Navillum-Logo_small1.png",
+        "link": "http://navillum.com/"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -111.8488042,
+          40.76500335
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "Team_Name": "Mesdi Systems from University of Central Florida",
+        "Description": "Mesdi Systems developed precision manufacturing modules that increase production capacities and reduce costs of lithium ion batteries used in vehicles, consumer electronics, and medical devices.",
+        "Run_By": "University of Maryland in College Park, Maryland",
+        "Region": "Southeast",
+        "Institution": "University of Central Florida",
+        "Position": "Finalist",
+        "Year": 2012,
+        "Address": "4000 Central Florida Blvd",
+        "City": "Orlando ",
+        "State": "FL",
+        "Zipcode": 32816,
+        "geo_accuracy": "",
+        "marker_color": "9c89cc",
+        "marker_symbol": "circle",
+        "image": "",
+        "link": ""
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -81.200189,
+          28.602559
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "Team_Name": "SolidEnergy from Massachusetts Institute of Technology",
+        "Description": "SolidEnergy's battery technology innovation, which improves the safety and energy density of rechargeable lithium batteries, is intended to accelerate the deployment of electric vehicles.",
+        "Run_By": "Rice University Business Plan Competition",
+        "Region": "Western Southwest",
+        "Institution": "Massachusetts Institute of Technology",
+        "Position": "Finalist",
+        "Year": 2012,
+        "Address": "77 Massachusetts Avenue",
+        "City": "Cambridge",
+        "State": "MA",
+        "Zipcode": "02139",
+        "geo_accuracy": "bus_stop",
+        "marker_color": "9c89cc",
+        "marker_symbol": "circle",
+        "image": "",
+        "link": ""
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -71.093544,
+          42.359184
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "Team_Name": "Stanford Nitrogen Group from Stanford University",
+        "Description": "Stanford Nitrogen Group developed a new wastewater treatment process that removes and recovers energy from waste nitrogen (ammonia).",
+        "Run_By": "California Institute of Technology in Pasadena, California",
+        "Region": "Western ",
+        "Institution": "Stanford University",
+        "Position": "Finalist",
+        "Year": 2012,
+        "Address": " 450 Serra Mall",
+        "City": "Stanford",
+        "State": "CA",
+        "Zipcode": 94305,
+        "geo_accuracy": "fast_food",
+        "marker_color": "9c89cc",
+        "marker_symbol": "circle",
+        "image": "http://flow.caltech.edu/resources/images/2012/stanford-nitrogen-logo.png",
+        "link": "http://flow.caltech.edu/previous-winners-2012#stanford-anchor"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -122.1710599,
+          37.4285536
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "Team_Name": "Radiator Labs from Columbia University",
+        "Description": "Radiator Labs developed a low-cost, easily installed radiator retrofit that converts steam radiator heating systems into a controlled zoned system to significantly increase the efficiency of radiator heating while improving occupant comfort.",
+        "Run_By": "by Massachusetts Institute of Technology in Cambridge, Massachusetts",
+        "Region": "Northeast",
+        "Institution": "Columbia University",
+        "Position": "Finalist",
+        "Year": 2012,
+        "Address": "116th St & Broadway",
+        "City": "New York",
+        "State": "NY",
+        "Zipcode": 10027,
+        "geo_accuracy": "residential",
+        "marker_color": "9c89cc",
+        "marker_symbol": "circle",
+        "image": "http://209.200.49.161/~radiator/wp-content/uploads/2015/01/radiator-labs-logo-300x67.png",
+        "link": "https://www.radiatorlabs.com/"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -73.96253,
+          40.807512
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "Team_Name": "ReGenerate Solutions from University of Michigan",
+        "Description": "ReGenerate developed a Compact Organic Waste System that transforms unwanted and costly organic waste into a renewable source of electricity and nutrient-rich compost that provides a lower cost and environmentally preferable alternative to traditional waste disposal.",
+        "Run_By": "Clean Energy Trust in Chicago, Illinois",
+        "Region": "Eastern Midwest",
+        "Institution": "University of Michigan",
+        "Position": "Runner-Ups",
+        "Year": 2012,
+        "Address": "500 S State St",
+        "City": "Ann Arbor ",
+        "State": "MI",
+        "Zipcode": 48109,
+        "geo_accuracy": "parking_entrance",
+        "marker_color": "9c89cc",
+        "marker_symbol": "circle-stroked",
+        "image": "",
+        "link": ""
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -83.7364842,
+          42.2801445
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "Team_Name": "BioRecyClean from University of Colorado",
+        "Description": "BioRecyClean designed a system that will break down biowastes into biogas, high quality fertilizers, soil amendments, and pathogen-free recycled bedding materials.",
+        "Run_By": "University of Colorado Cleantech New Venture Challenge in Boulder, Colorado",
+        "Region": "Western Midwest",
+        "Institution": "University of Colorado Boulder",
+        "Position": "Runner-Ups",
+        "Year": 2012,
+        "Address": "University of Colorado Boulder",
+        "City": "Boulder",
+        "State": "CO",
+        "Zipcode": "",
+        "geo_accuracy": "stadium",
+        "marker_color": "9c89cc",
+        "marker_symbol": "circle-stroked",
+        "image": "",
+        "link": ""
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -105.2660799,
+          40.00938065
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "Team_Name": "SafeLiCell from University of Maryland",
+        "Description": "SafeLiCell developed a patent-pending, solid-state polymer electrolyte material, called Lithium Flex, for use in lithium-ion batteries. The material provides a lighter, safer, and flexible lithium based energy source.",
+        "Run_By": "University of Maryland in College Park, Maryland",
+        "Region": "Southeast",
+        "Institution": "University of Maryland",
+        "Position": "Runner-Ups",
+        "Year": 2012,
+        "Address": "University of Maryland",
+        "City": "College Park",
+        "State": "MD",
+        "Zipcode": 20742,
+        "geo_accuracy": "school",
+        "marker_color": "9c89cc",
+        "marker_symbol": "circle-stroked",
+        "image": "",
+        "link": ""
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -76.9423044,
+          38.9856989
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "Team_Name": "Mimas Nanomaterials from Northwestern University",
+        "Description": "Mimas Nanomaterials utilizes a patented autogenic reaction process to upcycle several forms of plastic waste into a variety of nanomaterials that have diverse applications across the high-tech manufacturing sectors.",
+        "Run_By": "Rice University Business Plan Competition in Houston, Texas",
+        "Region": "Western Southwest",
+        "Institution": "Northwestern University",
+        "Position": "Runner-Ups",
+        "Year": 2012,
+        "Address": "633 Clark St",
+        "City": "Evanston",
+        "State": "IL",
+        "Zipcode": 60208,
+        "geo_accuracy": "house",
+        "marker_color": "9c89cc",
+        "marker_symbol": "circle-stroked",
+        "image": "",
+        "link": ""
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -87.6798166,
+          42.0505042
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "Team_Name": "Greenbotics from University of California – LA and California Institute of Technology",
+        "Description": "Greenbotics offers a solar panel cleaning service for utility-scale power plants that is centered around a highly automated, robotic cleaning vehicle.",
+        "Run_By": "California Institute of Technology in Pasadena, California",
+        "Region": "Western ",
+        "Institution": "University of California – LA and California Institute of Technology",
+        "Position": "Runner-Ups",
+        "Year": 2012,
+        "Address": "1200 E California Blvd",
+        "City": "Pasadena",
+        "State": "CA",
+        "Zipcode": 91125,
+        "geo_accuracy": "secondary",
+        "marker_color": "9c89cc",
+        "marker_symbol": "circle-stroked",
+        "image": "http://flow.caltech.edu/resources/images/2012/greenbotics-logo.png",
+        "link": "http://flow.caltech.edu/previous-winners-2012#stanford-anchor"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -118.1367904,
+          34.1358587
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "Team_Name": "Beejli Technologies from Massachusetts Institute of Technology",
+        "Description": "Beejli Technologies has a patent pending technology for remote monitoring of solar panels that will lower the upfront cost barriers to solar adoption for-off grid customers in rural areas.",
+        "Run_By": "Massachusetts Institute of Technology in Cambridge, Massachusetts",
+        "Region": "Northeast",
+        "Institution": "Massachusetts Institute of Technology",
+        "Position": "Runner-Ups",
+        "Year": 2012,
+        "Address": "77 Massachusetts Avenue",
+        "City": "Cambridge",
+        "State": "MA",
+        "Zipcode": "02139",
+        "geo_accuracy": "bus_stop",
+        "marker_color": "9c89cc",
+        "marker_symbol": "circle-stroked",
+        "image": "",
+        "link": ""
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -71.093544,
+          42.359184
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "Team_Name": "NuMat Technologies from Northwestern University",
+        "Description": "NuMat Technologies is commercializing a nanomaterial that stores gases at lower pressure, reducing infrastructure costs and increasing design flexibility. One potential application for this innovation is in designing tanks to store natural gas more efficiently in motor vehicles.",
+        "Run_By": "Clean Energy Trust in Chicago, Illinois",
+        "Region": "Eastern Midwest",
+        "Institution": "Northwestern University",
+        "Position": "Winner",
+        "Year": 2012,
+        "Address": "633 Clark Street",
+        "City": "Evanston",
+        "State": "IL",
+        "Zipcode": 60208,
+        "geo_accuracy": "house",
+        "marker_color": "9c89cc",
+        "marker_symbol": "star",
+        "image": "http://numat-tech.com/img/numat_logo.png",
+        "link": "http://numat-tech.com/"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -87.6798166,
+          42.0505042
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "Team_Name": "Invironment from Brigham Young University",
+        "Description": "PlasTek™ is a patent-pending technology created by Inviroment that facilitates the biodegradation of all types of plastic. PlasTek™ is sprayed onto waste as it enters a landfill and begins to decompose any plastic it touches. As a result, the average landfill will experience a 13 to 20 percent increase in capacity annually. Additional-ly, PlasTek™ accelerates the methane output from plastics. Methane is already collected by many landfills as a source of clean energy. With PlasTek™, the average landfill will collect enough additional methane to power more than 4,000 homes annually.",
+        "Run_By": "CU Cleantech New Ventures Challenge run by Universi-ty of Colorado-Boulder",
+        "Region": "Western",
+        "Institution": "Brigham Young University",
+        "Position": "Finalist",
+        "Year": 2013,
+        "Address": "Brigham Young University",
+        "City": "Provo",
+        "State": "UT",
+        "Zipcode": 84602,
+        "geo_accuracy": "parking",
+        "marker_color": "cccccc",
+        "marker_symbol": "circle",
+        "image": "",
+        "link": ""
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -111.6505718,
+          40.25142785
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "Team_Name": "Picasolar from University of Arkansas",
+        "Description": "Picasolar developed a Hydrogen Selective Emitter (HSE) to boost the efficiency of solar cells by improving the electrical connection between the different layers of a solar cell. The HSE increases solar power conversion efficiency and reduces the amount of silver needed to produce high-efficiency solar cells. With PIcasolar’s HSE technology, manufacturers could increase profits by approximately $35 per solar panel based on efficiency gains and silver cost savings.",
+        "Run_By": "MIT Clean Energy Prize run by Massachusetts Institute of Tech-nology",
+        "Region": "Northeast",
+        "Institution": "University of Arkansas",
+        "Position": "Finalist",
+        "Year": 2013,
+        "Address": "University of Arkansas",
+        "City": "Fayetteville",
+        "State": "AR",
+        "Zipcode": 72701,
+        "geo_accuracy": "school",
+        "marker_color": "cccccc",
+        "marker_symbol": "circle",
+        "image": "http://www.picasolar.com/picasolar2/wp-content/uploads/2014/01/picasolar_horizontal1-300x46.png",
+        "link": "http://picasolar.com/"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -94.172149,
+          36.0686906
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "Team_Name": "Pyro-E from University of California Berkeley",
+        "Description": "Pyro-E is developing an efficient solid-state system for electricity generation from waste heat. Pyro-E’s solid-state system will increase energy-use efficiency and re-duce environmental impact by capturing heat loss from other processes, such as fuel cell heat waste streams, and utilize the heat to generate clean electricity.",
+        "Run_By": "First Look West run by California Institute of Technology",
+        "Region": "Western",
+        "Institution": "California Institute of Technology",
+        "Position": "Finalist",
+        "Year": 2013,
+        "Address": "1200 E California Blvd",
+        "City": "Pasadena",
+        "State": "CA",
+        "Zipcode": 91125,
+        "geo_accuracy": "secondary",
+        "marker_color": "cccccc",
+        "marker_symbol": "circle",
+        "image": "http://www.pyro-e.com/images/logo.png",
+        "link": "http://www.pyro-e.com/"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -118.1367904,
+          34.1358587
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "Team_Name": "Bioadhesive Alliance Inc. from North Carolina A&T",
+        "Description": "Bioadhesive Alliance is developing and manufacturing “PiGrid,” a bio-based adhe-sive derived from hog waste that is environmentally-friendly, low-cost, and durable and can be utilized as a substitute for petroleum-based asphalt binder. The PiGrid bio-adhesive provides a sustainable alternative for the pavement industry at a lower production costs and an enhanced performance product, as well as an appropriate solution for traditional swine waste management.",
+        "Run_By": "ACC Clean Energy Challenge run by University of Maryland",
+        "Region": "Southeastern",
+        "Institution": "North Carolina A&T University",
+        "Position": "Finalist",
+        "Year": 2013,
+        "Address": "1601 E Market St",
+        "City": "Greensboro",
+        "State": "NC",
+        "Zipcode": 27411,
+        "geo_accuracy": "",
+        "marker_color": "cccccc",
+        "marker_symbol": "circle",
+        "image": "",
+        "link": ""
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -79.768967,
+          36.076689
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "Team_Name": "Dattus (Formerly Bearing Analytics) from Perdue University",
+        "Description": "Bearing Analytics provides telemetry solutions offering temperature and vibration sensing to the industrial and wind turbine bearing markets. This technology allows users to predict bearing failure, helping to alleviate safety concerns, prevent costly gearbox failures in wind turbines, extend product lifetimes and increase energy effi-ciency.",
+        "Run_By": "Clean Energy Trust Clean Energy Challenge run by Clean Energy Trust",
+        "Region": "Eastern Midwest",
+        "Institution": "Perdue University",
+        "Position": "Finalist",
+        "Year": 2013,
+        "Address": "610 Purdue Mall",
+        "City": "West Lafayette",
+        "State": "IN",
+        "Zipcode": 47907,
+        "geo_accuracy": "",
+        "marker_color": "cccccc",
+        "marker_symbol": "circle",
+        "image": "http://imageprocessor.websimages.com/width/200/crop/0,0,200x88/biobindergroup.webs.com/Untitled4-1.png",
+        "link": "http://biobindergroup.webs.com/"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -86.921538,
+          40.424358
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "Team_Name": "Brewcovery Clemson University",
+        "Description": "Brewcovery converts bio-related waste into value-added products, creating eco-nomic opportunities for industry players while enhancing the environment of our communities. A start-up company with a small operational pilot system, Brew-covery processes food and brewery wastes into a variety of marketable prod-ucts. Brewcovery utilizes a specially designed vermiculture digester to convert these wastes into value-added materials, which are then moderately refined and prepared for local markets with a very favorable energy balance.",
+        "Run_By": "ACC Clean Energy Challenge run by University of Maryland",
+        "Region": "Southeastern",
+        "Institution": "Clemson University",
+        "Position": "Runner-Ups",
+        "Year": 2013,
+        "Address": "101 Calhoun Dr",
+        "City": "Clemson",
+        "State": "SC",
+        "Zipcode": 29634,
+        "geo_accuracy": "house",
+        "marker_color": "cccccc",
+        "marker_symbol": "circle-stroked",
+        "image": "https://www.dattus.com/img/dattus_3D_logo.png",
+        "link": "https://www.dattus.com/index.php"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -82.8420111,
+          34.6801276
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "Team_Name": "Chai Energy from California Institute of Technology",
+        "Description": "Chai is working toward a brighter home energy future. Through active energy monitoring and communication, we want to help homeowners reduce usage, increase efficiency, save money, and improve their energy use habits. Chai's technology depends on its users. We here at Chai believe in the power of transparency in our energy use, and in the power of putting people in control of the things that matter most to them. Energy is the lifeblood of our modern world. Chai is our way of em-powering the people.",
+        "Run_By": "First Look West run by California Institute of Technology",
+        "Region": "Western",
+        "Institution": "California Institute of Technology",
+        "Position": "Runner-Ups",
+        "Year": 2013,
+        "Address": "1200 E California Blvd",
+        "City": "Pasadena",
+        "State": "CA",
+        "Zipcode": 91125,
+        "geo_accuracy": "secondary",
+        "marker_color": "cccccc",
+        "marker_symbol": "circle-stroked",
+        "image": "https://chaienergy.com/wp-content/themes/chaienergy/assets/images/layout/logo.jpg",
+        "link": "https://chaienergy.com/"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -118.1367904,
+          34.1358587
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "Team_Name": "Sistine Solar from Massachusetts Institute of Technology",
+        "Description": "Sistine Solar, a company recently started by MIT grad students, is on a mission to showcase the innate beauty of solar through stunning designs, capti-vating the world's imagination and ushering in the era of clean energy. By weaving solar cells into beautiful patterns on building facades, Sistine Solar creates unparal-leled aesthetics while elegantly generating electricity. The result is novel multi-functional building envelopes available for the first time to architects and facade developers. Sistine Solar is the winner of the renewables track at the 2013 MIT Clean Energy Prize, and a finalist at the ongoing Cleantech Open.",
+        "Run_By": "MIT Clean Energy Prize run by Massachusetts Institute of Technology",
+        "Region": "Northeast",
+        "Institution": "Massachusetts Institute of Technology",
+        "Position": "Runner-Ups",
+        "Year": 2013,
+        "Address": "77 Massachusetts Avenue",
+        "City": "Cambridge",
+        "State": "MA",
+        "Zipcode": "02139",
+        "geo_accuracy": "bus_stop",
+        "marker_color": "cccccc",
+        "marker_symbol": "circle-stroked",
+        "image": "http://www.sistinesolar.com/uploads/4/0/6/3/40633613/1433350311.png",
+        "link": "http://www.sistinesolar.com/"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -71.093544,
+          42.359184
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "Team_Name": "Skyspecs from University of Michigan",
+        "Description": "SkySpecs is creating a safer, simpler, way to inspect structures using autonomous, aerial vehicles. The company's first product will be a small quadrotor UAV that specializes in flying close structures. Controlling the vehicle will be easy, even for novice users, as onboard artificial intelligence will handle flight and obstacle avoid-ance, requiring only very high-level commands from the operator. SkySpecs UAVs will result in faster, easier data collection in places that are difficult or dangerous for people to access. Our platform will make it easier to process repeated data collections that will provide a framework around which data can be more struc-tured and methodical. Customers will have one reliable solution for a range of scenarios which currently require a diverse set of tools and personnel to accom-plish.",
+        "Run_By": "Clean Energy Trust Clean Energy Challenge run by Clean Energy Trust",
+        "Region": "Eastern Midwest",
+        "Institution": "University of Michigan",
+        "Position": "Runner-Ups",
+        "Year": 2013,
+        "Address": "500 S State St",
+        "City": "Ann Arbor ",
+        "State": "MI",
+        "Zipcode": 48109,
+        "geo_accuracy": "parking_entrance",
+        "marker_color": "cccccc",
+        "marker_symbol": "circle-stroked",
+        "image": "http://static1.squarespace.com/static/52f27042e4b0612c121f6d2e/t/54e1f6a8e4b093f6b2b85eaa/1432152380181/?format=400w",
+        "link": "http://www.skyspecs.com/#intro"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -83.7364842,
+          42.2801445
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "Team_Name": "NanoNet from Boston College",
+        "Description": "NanoNET is an innovative lithium-ion battery technology that is poised to dramati-cally change how the world experiences portable power. Underperformance dis-appoints consumers, forcing frequent recharging, device capability limitations, and battery replacement. NanoNET addresses this problem with a revolutionary lithi-um-ion battery that improves performance by reducing charge time to mere minutes, extending battery cycle life twenty-fold, improving capacity 100%, all while slashing the weight in half. The bonded silicon and titanium nano-structure in our patented technology enables a battery cell to function with unprecedented performance. Compared to current lithium-ion technology, NanoNET increases specific capacity, extends battery life and increases recharge rate. The simplified manufacturing process, modular design and reduced cost of raw materials will enable NanoNET technology to gain traction in the market.",
+        "Run_By": "ice Business Plan Competition run by Rice University",
+        "Region": "Western Southwest",
+        "Institution": "Boston College",
+        "Position": "Runner-Ups",
+        "Year": 2013,
+        "Address": "Boston College",
+        "City": "Chestnut Hill",
+        "State": "MA",
+        "Zipcode": "02467",
+        "geo_accuracy": "university",
+        "marker_color": "cccccc",
+        "marker_symbol": "circle-stroked",
+        "image": "",
+        "link": ""
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -71.1703275,
+          42.3352916
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "Team_Name": "SiNode Systems from Northwestern University",
+        "Description": "SiNode’s lithium battery anode technology addresses two aspects of battery im-provement, energy capacity and power density. SiNode Systems’ Si-graphene com-posite anode provides up to a ten-fold increase in energy capacity compared to the conventional graphite anode, and can increase energy capacity of a complete battery assembly by 50 percent to 100 percent. The graphene scaffolding of the anode provides for more flexible support and a faster charging of the battery, up to a ten-fold increase.",
+        "Run_By": "Rice Business Plan Competition run by Rice University",
+        "Region": "Western Southwest Region",
+        "Institution": "Northwestern University",
+        "Position": "Winner",
+        "Year": 2013,
+        "Address": "633 Clark Street",
+        "City": "Evanston",
+        "State": "IL",
+        "Zipcode": 60208,
+        "geo_accuracy": "house",
+        "marker_color": "cccccc",
+        "marker_symbol": "star",
+        "image": "http://54.68.188.108/wp-content/themes/sinode/images/sinode-small.png",
+        "link": "http://sinodesystems.com/"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -87.6798166,
+          42.0505042
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "Team_Name": "Boom Algae (Formerly Superior Ecotech) from University of Colorado - Boulder",
+        "Description": "Superior Ecotech converts CO2 waste gas from fermentation processes into high value, algae derived oils. By employing a combination of pro-prietary technologies to grow and harvest pho-tosynthetic algae in high-efficiency greenhouses, we monetize waste streams while lowering our co-location partners’ CO2 emissions.",
+        "Run_By": "CU Cleantech New Ventures Challenge run by Univer-sity of Colorado-Boulder",
+        "Region": "Western Midwest",
+        "Institution": "University of Colorado-Boulder",
+        "Position": "Finalist",
+        "Year": 2014,
+        "Address": "University of Colorado Boulder",
+        "City": "Boulder",
+        "State": "CO",
+        "Zipcode": "",
+        "geo_accuracy": "stadium",
+        "marker_color": "e7857f",
+        "marker_symbol": "circle",
+        "image": "http://static1.squarespace.com/static/54ff60dae4b09bdebebc24af/t/5511b688e4b08ee845464dac/1430339507244/?format=1500w",
+        "link": "http://boomalgae.com/"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -105.2660799,
+          40.00938065
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "Team_Name": "Unified Solar from Massachusetts Institute of Technology",
+        "Description": "Unified Solar is an MIT startup that is commercializing an integrated circuit (IC) solution that eliminates most of the adverse effects caused by partial shading in photovoltaic power systems. With its patent-pending design, Unified Solar's solution is smaller, cheaper, and more powerful than any competing power optimizer in the market.",
+        "Run_By": "MIT Clean Energy Prize run by Massachusetts Institute of Technology",
+        "Region": "Northeast Region",
+        "Institution": "Massachusetts Institute of Technology",
+        "Position": "Finalist",
+        "Year": 2014,
+        "Address": "77 Massachusetts Avenue",
+        "City": "Cambridge",
+        "State": "MA",
+        "Zipcode": "02139",
+        "geo_accuracy": "bus_stop",
+        "marker_color": "e7857f",
+        "marker_symbol": "circle",
+        "image": "http://www.unified-solar.com/images/logo_horizontal.png",
+        "link": "http://www.unified-solar.com/"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -71.093544,
+          42.359184
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "Team_Name": "KAir Battery from Ohio State University",
+        "Description": "KAir Battery, from Ohio State University, is commercializ-ing highly energy efficient cost effective potassium air batteries for use in the electrical stationary storage sys-tems market (ESSS). Beyond, the ESSS market potential applications range from temporary power stations and electric vehicle.",
+        "Run_By": "Rice Business Plan Competition run by Rice University",
+        "Region": "Western Southwest",
+        "Institution": "Ohio State University",
+        "Position": "Finalist",
+        "Year": 2014,
+        "Address": "Ohio State University",
+        "City": "Columbus",
+        "State": "OH",
+        "Zipcode": 43210,
+        "geo_accuracy": "university",
+        "marker_color": "e7857f",
+        "marker_symbol": "circle",
+        "image": "https://scontent-lga1-1.xx.fbcdn.net/hphotos-xfa1/v/t1.0-9/10290711_651079994945832_4445217605429948590_n.jpg?oh=e795c4ed317f10cb661989fd309a4f8a&oe=55EB6F80",
+        "link": "http://www.kairenergysystems.com/"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -83.02853678,
+          40.0045425
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "Team_Name": "Prosumer Grid (Formerly Energy Internet) from Georgia Institute of Technology",
+        "Description": "Energy Internet from Georgia Tech: Energy Internet is commercializing a software platform for decentralized scheduling of energy-producing or consuming assets on the electric grid. This scalable system will revolu-tionize the control of distributed solar generation, electric vehicle charging, intelligent appliances, and other smart grid tech-nologies.",
+        "Run_By": "ACC Clean Energy Challenge run by University of Maryland",
+        "Region": "Southeastern Region",
+        "Institution": "Georgia Institute of Technology",
+        "Position": "Finalist",
+        "Year": 2014,
+        "Address": "North Ave NW",
+        "City": "Atlanta",
+        "State": "GA",
+        "Zipcode": 30332,
+        "geo_accuracy": "primary",
+        "marker_color": "e7857f",
+        "marker_symbol": "circle",
+        "image": "https://prosumergrid.files.wordpress.com/2015/02/cropped-header1.png",
+        "link": "http://prosumergrid.files.wordpress.com/2015/02/cropped-header1.png"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -84.3898026,
+          33.7712556
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "Team_Name": "Black Pine Engineering from Michigan State University",
+        "Description": "Black Pine Engineering is commercializing a disruptive technology in the turbomachinery industry. Using a pa-tented woven composite construction, our team can make turbomachines (turbines, compressors) that are much cheaper and lighter than competing technologies. Using this technology, BPE will sell turbo-compressors, which solve the problem of wasted steam in geothermal power plants.",
+        "Run_By": "Clean Energy Trust Clean Energy Challenge run by Clean Energy Trust",
+        "Region": "Eastern Midwest Region",
+        "Institution": "Michigan State University",
+        "Position": "Finalist",
+        "Year": 2014,
+        "Address": "220 Trowbridge Rd",
+        "City": "East Lansing",
+        "State": "MI",
+        "Zipcode": 48824,
+        "geo_accuracy": "tertiary",
+        "marker_color": "e7857f",
+        "marker_symbol": "circle",
+        "image": "http://www.blackpineengineering.com/common/logo1.jpg",
+        "link": "http://www.blackpineengineering.com/"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -84.4989199,
+          42.719891
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "Team_Name": "Ampy (Formerly myPower) from Northwestern University",
+        "Description": "Millions of Ameri-cans share a common frustration -- a dead smartphone battery before the end of the day. myPower is a device that captures a user's kinetic energy so they can recharge their smartphone. A typical day of walking provides an additional 3 hours of battery life. Sign up for their pilot",
+        "Run_By": "Clean Energy Trust Clean Energy Challenge run by Clean Energy Trust",
+        "Region": "Eastern Midwest ",
+        "Institution": "Northwestern University",
+        "Position": "Runner-Ups",
+        "Year": 2014,
+        "Address": "633 Clark Street",
+        "City": "Evanston",
+        "State": "IL",
+        "Zipcode": 60208,
+        "geo_accuracy": "house",
+        "marker_color": "e7857f",
+        "marker_symbol": "circle-stroked",
+        "image": "https://store.getampy.com/index_files/ampy-logo-1.png",
+        "link": "http://www.getampy.com/ampy-move"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -87.6798166,
+          42.0505042
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "Team_Name": "Wavve LLC from University of Houston",
+        "Description": "Wavve Inc. manufactures a patented graphene-based nanotechnology coating that enables existing water filtration processes to simultaneously remove heavy metals, harmful chemicals, and radioactive ions from the water. A critical application for this innovation is in the pro-duction water and flowback water from fracking in the shale plays.",
+        "Run_By": "Rice Business Plan Competition run by Rice University",
+        "Region": "Western Southwest",
+        "Institution": "University of Houston",
+        "Position": "Runner-Ups",
+        "Year": 2014,
+        "Address": "4800 Calhoun Rd.",
+        "City": "Houston",
+        "State": "TX",
+        "Zipcode": 77004,
+        "geo_accuracy": "place_of_worship",
+        "marker_color": "e7857f",
+        "marker_symbol": "circle-stroked",
+        "image": "http://wavvestream.com/wp-content/uploads/2014/11/wavvelogotop.png",
+        "link": "http://wavvestream.com/"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -95.3382,
+          29.7214
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "Team_Name": "MF Fire from University of Maryland",
+        "Description": "MF Fire has created the Mulciber Stove which is a high efficiency wood stove, featured in National Ge-ographic, Popular Mechanics, and the New York Times. The feasibility model competed against top wood stove manufacturers in the 2013 Wood Stove Decathlon and achieved the lowest particulate emissions ever measured in a stove – less than half the particulate matter produced by a cigarette. Us-ing clever engineering and a smart controller, The Mulciber Stove brings clean, local, renewable energy with a push of a button.",
+        "Run_By": "ACC Clean Energy Challenge run by University of Maryland",
+        "Region": "Southeastern",
+        "Institution": "University of Maryland",
+        "Position": "Runner-Ups",
+        "Year": 2014,
+        "Address": "University of Maryland",
+        "City": "College Park",
+        "State": "MD",
+        "Zipcode": 20742,
+        "geo_accuracy": "school",
+        "marker_color": "e7857f",
+        "marker_symbol": "circle-stroked",
+        "image": "http://mffire.com/images/logo.gif",
+        "link": "http://mffire.com/"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -76.9423044,
+          38.9856989
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "Team_Name": "GrollTex from University of California, San Diego",
+        "Description": "GrollTex, a high-tech UC San Diego spin-off, developed the long-awaited technology that allows local, waste-free industrial production of large-area graphene (the \"hottest\", most expensive material currently in existence) at a price that is 240,000 lower than the current market price. Graphene is a wonder material that is 200x stronger than steel, more conductive than copper, and is transparent. Graphene could be manufac-ture into atomically thin, flexible, transparent conductors, circuits, ultra-fast processors, and super-capacitors that become the essential parts of next-generation flat screen TVs and solar panels.",
+        "Run_By": "First Look West run by California Institute of Technology",
+        "Region": "Western",
+        "Institution": "University of California, San Diego",
+        "Position": "Runner-Ups",
+        "Year": 2014,
+        "Address": "9500 Gilman Dr",
+        "City": "La Jolla",
+        "State": "CA",
+        "Zipcode": 92093,
+        "geo_accuracy": "university",
+        "marker_color": "e7857f",
+        "marker_symbol": "circle-stroked",
+        "image": "",
+        "link": "http://www.reecycleinc.com/"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -117.2311422,
+          32.8810848
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "Team_Name": "REEcycle from University of Houston",
+        "Description": "REEcycle is the first company to profitably re-claim Neodymium and Dysprosium, two critical rare earth elements necessary for a low carbon economy. Neodymium and Dysprosium are es-sential for manufacturing more productive electric motors and more effi-cient wind turbines, reducing our dependence on coal, oil and natural gas",
+        "Run_By": "First Look West run by California Institute of Technology",
+        "Region": "Western",
+        "Institution": "University of Houston",
+        "Position": "Winner",
+        "Year": 2014,
+        "Address": "4800 Calhoun Rd.",
+        "City": "Houston",
+        "State": "TX",
+        "Zipcode": 77004,
+        "geo_accuracy": "place_of_worship",
+        "marker_color": "e7857f",
+        "marker_symbol": "star",
+        "image": "",
+        "link": ""
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -95.3382,
+          29.7214
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "Team_Name": "FGC Plasma Solutions From Case Western Reserve University",
+        "Description": "FGC Plasma Solutions has developed a novel way to inject fuel into jet engines that improves safety while decreasing fuel consumption. The technology uses plasma to modify the combustion reaction. Although plasma-assisted combustion is a known phenomenon that has been studied for more than 30 years, commercializing this technology—moving it out of the lab and into a jet engine—has been a challenge. To implement their method, FGC Plasma Solutions plans to integrate plasma-assisted combustion topology with a fuel nozzle—developed as a plug and play solution—which can be easily installed during routine maintenance.",
+        "Run_By": "",
+        "Region": "Eastern Midwest",
+        "Institution": "Case Western Reserve University",
+        "Position": "Finalist",
+        "Year": 2015,
+        "Address": "10900 Euclid Ave",
+        "City": "Cleveland",
+        "State": "OH",
+        "Zipcode": 44106,
+        "geo_accuracy": "house",
+        "marker_color": "548cba",
+        "marker_symbol": "circle",
+        "image": "",
+        "link": ""
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -81.609738,
+          41.505366
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "Team_Name": "Hyliion from Carnegie Mellon University",
+        "Description": "SMART Suspension System, an add-on hybrid module for tractor-trailers that captures otherwise wasted energy to reduce fuel consumption by 30 percent. The system stores the energy lost while braking and coasting down hills to power the truck’s acceleration, reducing greenhouse gas emissions.",
+        "Run_By": "",
+        "Region": "Western Southwest",
+        "Institution": "Carnegie Mellon University",
+        "Position": "Finalist",
+        "Year": 2015,
+        "Address": "5000 Forbes Ave",
+        "City": "Pittsburgh",
+        "State": "PA",
+        "Zipcode": 15213,
+        "geo_accuracy": "house",
+        "marker_color": "548cba",
+        "marker_symbol": "circle",
+        "image": "http://www.hyliion.com/wp-content/uploads/2015/06/logo-sticky-long.png",
+        "link": "http://www.hyliion.com/"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -79.94334534,
+          40.4441867
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "Team_Name": "Living Ink Technologies from Colorado State University",
+        "Description": "Living Ink has developed a patent-pending technology that uses algae to transform carbon dioxide into ink. One of the most expensive liquids people buy, traditional ink is hazardous to both human health and the environment, as it is derived from petroleum and toxic chemicals. By contrast, Living Ink’s algae-based ink is cheaper, healthier, and environmentally sustainable. Living Ink is initially focusing on the toy, greeting card, and promotional products space with the goal of eventually transforming the ink industry as a whole.",
+        "Run_By": "",
+        "Region": "Western Midwest",
+        "Institution": "Colorado State University",
+        "Position": "Finalist",
+        "Year": 2015,
+        "Address": "Colorado State University",
+        "City": "Fort Collins",
+        "State": "CO",
+        "Zipcode": 80523,
+        "geo_accuracy": "university",
+        "marker_color": "548cba",
+        "marker_symbol": "circle",
+        "image": "http://static1.squarespace.com/static/52f293c3e4b0fa0f18d79d45/t/531e2cf1e4b089910ebb7bfa/1434466047930/?format=1500w",
+        "link": "http://www.livinginktechnologies.com/"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -105.0859932,
+          40.57094275
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "Team_Name": "Axiom Energy from UC-Berkeley",
+        "Description": "Axiom Exergy has developed a method of reducing the electricity load of a typical supermarket by shifting the bulk of refrigeration-related energy usage from peak hours to cheaper off-peak hours. The company achieves this reduction through the Refrigeration BatteryTM, a thermal energy storage retrofit that charges water tanks at night, when electricity is cheaper, and then uses those frozen tanks to provide refrigeration throughout the day. The technology reduces energy costs and lowers the risk of food spoiling during power outages.",
+        "Run_By": "",
+        "Region": "Western",
+        "Institution": "UC-Berkeley",
+        "Position": "Finalist",
+        "Year": 2015,
+        "Address": "University of California, Berkeley",
+        "City": "Berkeley",
+        "State": "CA",
+        "Zipcode": "",
+        "geo_accuracy": "museum",
+        "marker_color": "548cba",
+        "marker_symbol": "circle",
+        "image": "",
+        "link": ""
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -122.255868,
+          37.8687126
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "Team_Name": "Optibit from Massachusetts Institute of Technology, UC-Berkeley, and University of Colorado (2015)",
+        "Description": "The student-led team has developed a novel approach to helping data centers keep up with ballooning volumes of electronic information while saving energy. OptiBit’s product brings the high bandwidth and energy efficiency of fiber optics to computer chips, using a drop-in phototonics hardware solution with 10 times more throughput, two times lower latency, and 95% less energy use than the current copper-based technology.",
+        "Run_By": "",
+        "Region": "Northeast",
+        "Institution": "Massachusetts Institute of Technology",
+        "Position": "Finalist",
+        "Year": 2015,
+        "Address": "77 Massachusetts Ave",
+        "City": "Cambridge",
+        "State": "MA",
+        "Zipcode": "02139",
+        "geo_accuracy": "bus_stop",
+        "marker_color": "548cba",
+        "marker_symbol": "circle",
+        "image": "",
+        "link": ""
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -71.093544,
+          42.359184
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "Team_Name": "Optibit from Massachusetts Institute of Technology, UC-Berkeley, and University of Colorado (2015)",
+        "Description": "The student-led team has developed a novel approach to helping data centers keep up with ballooning volumes of electronic information while saving energy. OptiBit’s product brings the high bandwidth and energy efficiency of fiber optics to computer chips, using a drop-in phototonics hardware solution with 10 times more throughput, two times lower latency, and 95% less energy use than the current copper-based technology.",
+        "Run_By": "",
+        "Region": "Northeast",
+        "Institution": "UC-Berkeley",
+        "Position": "Finalist",
+        "Year": 2015,
+        "Address": "University of California, Berkeley",
+        "City": "Berkeley",
+        "State": "CA",
+        "Zipcode": "",
+        "geo_accuracy": "museum",
+        "marker_color": "548cba",
+        "marker_symbol": "circle",
+        "image": "",
+        "link": ""
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -122.255868,
+          37.8687126
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "Team_Name": "Optibit from Massachusetts Institute of Technology, UC-Berkeley, and University of Colorado (2015)",
+        "Description": "The student-led team has developed a novel approach to helping data centers keep up with ballooning volumes of electronic information while saving energy. OptiBit’s product brings the high bandwidth and energy efficiency of fiber optics to computer chips, using a drop-in phototonics hardware solution with 10 times more throughput, two times lower latency, and 95% less energy use than the current copper-based technology.",
+        "Run_By": "",
+        "Region": "Northeast",
+        "Institution": "University of Colorado",
+        "Position": "Finalist",
+        "Year": 2015,
+        "Address": "University of Colorado Boulder",
+        "City": "Boulder",
+        "State": "CO",
+        "Zipcode": "",
+        "geo_accuracy": "stadium",
+        "marker_color": "548cba",
+        "marker_symbol": "circle",
+        "image": ""
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -105.2660799,
+          40.00938065
+        ]
+      }
+    }
+
+]
+}
+
+// Visit https://www.mapbox.com/mapbox.js/overview/ for documentation and examples
+  var map = L.mapbox.map('map', 'energy.mg4gkn35', {
+      detectRetina: true,
+      zoomControl: false,
+      gridControl: false, //turns off automatic tooltips ??
+      scrollWheelZoom:false,
+      minZoom: 3,
+      maxZoom: 12
+  }).fitBounds([
+            [42.461, -56.979],[32.536, -134.4]
+            ]);
+
+map.addControl( L.control.zoom({position: 'topright'}) );
+
+var class_current = 0;
+
+(function ($) { 
+
+$(function () {
+        $('#alaska').click(function(e) {
+            map.fitBounds([
+            [71.3516, -188.90491],[51.3516, -129.986]
+            ]);
+
+        });
+        $('#hawaii').click(function(e) {
+            map.fitBounds([
+            [22.2289, -154.8],[18.948, -159.764]
+            ]);
+            // selectstate();
+
+        });
+        $('#usa').click(function(e) {
+            map.fitBounds([
+            [42.461, -56.979],[32.536, -134.4]
+            ]);
+            // var e = null;
+            // $('.legendz').removeClass('active')
+            // p = 0;
+            // onClickyhigh();
+            // selectstate();
+        });
+    });
+}(jQuery));  
+
+var markers = new L.MarkerClusterGroup({
+    maxClusterRadius:  5
+});
+
+
+ for (var i = 0; i < points.features.length; i++) {
+        var a = points.features[i];
+        // var title = a[2];
+        
+        console.log(a.properties)
+
+
+        var marker_symbol = a.properties.marker_symbol
+        var marker_color = a.properties.marker_color
+
+          var marker = L.marker(new L.LatLng(a.geometry.coordinates[1], a.geometry.coordinates[0]), {
+
+              icon: L.mapbox.marker.icon({              
+                'marker-symbol': marker_symbol, 
+                'marker-color': marker_color,
+                'marker-size':'medium'
+              })
+          });
+
+          if (a.properties.Tech_Type == "Enhanced Geothermal Systems (EGS)") {
+            var techtype = '<p>Technology Type: <a href="http://energy.gov/eere/geothermal/enhanced-geothermal-systems-0" target="_blank">Enhanced Geothermal Systems</a></p>'
+          } else if (a.properties.Tech_Type == "Hydrocarbon Co-production (CoPro)") {
+            var techtype = '<p>Technology Type: <a href="http://energy.gov/eere/geothermal/low-temperature-and-coproduced" target="_blank">Hydrocarbon Co-production</a></p>'
+          } else {
+            techtype = '<p>Technology Type: <a href="http://energy.gov/eere/geothermal/hydrothermal" target="_blank">Conventional Hydrothermal</a></p>';
+          };
+
+          if (a.properties.Planned_Ca > 0) {
+            var capacity = '<p>Planned Capacity: ' + a.properties.Planned_Ca + ' MW</p>';
+          } else {
+            var capacity = '';
+          };
+
+          marker.bindPopup(
+            '<h2>' + a.properties.Team_Name + '</h2>' + 
+            '<img class="tooltip-image" src="' + a.properties.image + '">' +
+            '<p>' + a.properties.Description + '</p>'
+          );
+          markers.addLayer(marker);
+
+
+    }
+    map.addLayer(markers);
+
+
+
+(function ($) { 
+
+  info_box = document.getElementById('info-box');
+
+  $(document).ready(function() { 
+    $('.under-map-button').click(function (e) {
+      e.preventDefault();
+      $('.under-map-button').removeClass('active');      
+      $(this).addClass('active'); 
+      $('#info-container').addClass('active');     
+    });
+    $('.position-1').click(function (e) {
+      $('.info-bar').removeClass('active');
+      $('.position-1').addClass('active');
+      info_box.innerHTML = info_data[0]
+    });
+    $('.position-2').click(function (e) {
+      $('.info-bar').removeClass('active');
+      $('.position-2').addClass('active');
+      info_box.innerHTML = info_data[1]      
+    });
+    $('.position-3').click(function (e) {
+      $('.info-bar').removeClass('active');      
+      $('.position-3').addClass('active');
+      info_box.innerHTML = info_data[2]
+    });
+
+    //Close button clicked
+    $('.close-overlay').click(function (e) {
+      $('#info-container').removeClass('active');
+      $('.info-bar').removeClass('active');
+      $('.under-map-button').removeClass('active');
+    });
+  });   
+
+}(jQuery));  
+
+
+
+</script>
