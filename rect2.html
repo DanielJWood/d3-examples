@@ -1,0 +1,114 @@
+---
+layout: default
+---
+
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+
+    <!-- // <script src="http://d3js.org/d3.v3.min.js"></script> -->
+
+    <style>
+        rect {
+            fill:transparent;
+            stroke-width:3;
+            stroke: black;
+        }
+    </style>
+
+  </head>
+  <body>
+    <svg width="1000" height="1000">
+<!--         <g class="single-rect">
+            <g class="rect-container">
+                <rect class="rotate-me" width=100 height=100 />
+            </g>
+        </g>
+         -->
+        <g class="group">
+            <g class="g-container">
+                <g class="rotate-me">
+                </g>
+            </g>
+        </g>
+    </svg>
+
+    <script type="text/javascript">
+
+        var a = 100;
+        var bottom = 500;
+        var c = Math.sqrt(2*Math.pow(a,2))        
+
+        var g = d3.select("svg").append("g")
+            .attr("class","single-rect")
+            .append("g").attr("class","rect-container")
+
+        var background = d3.select("svg").append("g")
+            .attr("class","background")            
+
+        var rect1 = g.append("rect")
+            .attr("class","rotate-me")
+            .attr("width",a)
+            .attr("height",a)
+
+        var line = background.append("line")
+            .attr("x1",100)
+            .attr("x2",800)
+            .attr("y1",bottom)
+            .attr("y2",bottom)
+            .attr("stroke-width","2")
+            .attr("stroke","black")
+
+        
+        var center, centerToOrigin, group;
+
+        centerToOrigin = function(el) {
+          var boundingBox;
+          boundingBox = el.getBBox();
+          console.log(boundingBox)
+          return {
+            x: -1 * Math.floor(boundingBox.width / 2),
+            y: -1 * Math.floor(boundingBox.height / 2)
+          };
+        };
+
+        group = d3.select("g.rotate-me");
+        console.log(group.node().getBBox())
+        center = centerToOrigin(group.node());
+        console.log(center.y)
+        group.attr("transform", "translate(" + center.x + ", " + center.y + ")");
+            
+        // #clean rotation - single element
+        rect = d3.select("rect.rotate-me")
+        center = centerToOrigin(rect.node())
+        rect.attr("transform", "translate(" + center.x + ", " + center.y + ")");
+
+        d3.select("g.rect-container")
+            .transition()
+            .ease("linear")
+            .duration(1000)
+            .attr("transform", "rotate(180)")
+            .each("end",function(){console.log("hello")})
+        d3.select('g.single-rect').attr("transform", function() { 
+                return "translate(500," + (bottom - (a/2)) +")"
+            })
+
+
+        // #clean rotation - group of two elements
+        // group = d3.select("g.rotate-me")
+        // center = centerToOrigin(group.node())
+        // group.attr("transform", "translate(" + center.x + ", " + center.y + ")");
+
+        // d3.select("g.g-container")
+        //     .transition()
+        //     .duration(1000)
+        //     .attr("transform", "rotate(180)")
+        // d3.select('g.group').attr("transform", "translate(300,300) scale(.5)")
+
+    </script>
+
+
+  </body>
+
+</html>  

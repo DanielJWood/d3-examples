@@ -6,17 +6,23 @@ layout: default
 
 text {
   font: bold 48px monospace;
+  opacity: 0;
 }
 
 .enter {
   fill: green;
+  transition: fill 750ms ease-out;
 }
 
 .update {
   fill: #333;
+  transition: fill 750ms ease-out;
 }
 
 </style>
+<button onclick="ud()">update</button>
+<button onclick="mv()">move</button>
+
 
 <script>
 
@@ -41,16 +47,24 @@ function update(data) {
   var text = svg.selectAll("text")
       .data(data);
 
+console.log(data)
+
   // UPDATE
   // Update old elements as needed.
   text.attr("class", "update");
 
   // ENTER
   // Create new elements as needed.
-  text.enter().append("text")
+  text.enter()
+    .append("text")
+    .transition().duration(900)
+    .delay(function(d, i) {
+      return i * 10;
+    })
       .attr("class", "enter")
       .attr("x", function(d, i) { return i * 32; })
-      .attr("dy", ".35em");
+      .attr("dy", ".35em")
+      .attr("style","opacity: 1");
 
   // ENTER + UPDATE
   // Appending to the enter selection expands the update selection to include
@@ -61,16 +75,91 @@ function update(data) {
   // EXIT
   // Remove old elements as needed.
   text.exit().remove();
+
+    var text2 = svg.selectAll("text")
+
+  var raw = []
+  for (var i = 0; i < text2[0].length; i++) {
+    // console.log(text2[0][i])
+    raw.push(text2[0][i].textContent)
+  };
+
+  raw = raw.sort();
+
+  text2.transition().duration(900)
+    .delay(function(d, i) {
+      console.log(d)
+      for (var j = 0; j < raw.length; j++) {
+        if (raw[j]==d) {
+          return Math.pow(j,0.5) * 100;
+          break
+        }
+      }
+    })
+    .attr("x", function(d,i){
+      // console.log(i)
+      var n = d.charCodeAt(0) - 97;
+      for (var j = 0; j < raw.length; j++) {
+        if (raw[j]==d) {
+          return j * 32;
+          break
+        } 
+      };
+      
+    })
+
 }
+
+function move() {
+  var text2 = svg.selectAll("text")
+
+  var raw = []
+  for (var i = 0; i < text2[0].length; i++) {
+    // console.log(text2[0][i])
+    raw.push(text2[0][i].textContent)
+  };
+
+  raw = raw.sort();
+
+  text2.transition().duration(900)
+    .delay(function(d, i) {
+      console.log(d)
+      for (var j = 0; j < raw.length; j++) {
+        if (raw[j]==d) {
+          return Math.pow(j,0.5) * 100;
+          break
+        }
+      }
+    })
+    .attr("x", function(d,i){
+      // console.log(i)
+      var n = d.charCodeAt(0) - 97;
+      for (var j = 0; j < raw.length; j++) {
+        if (raw[j]==d) {
+          return j * 32;
+          break
+        } 
+      };
+      
+    })
+}
+
+function mv() {
+  // console.log(alphabet.sort())
+   move();
+}
+
 
 // The initial display.
 update(alphabet);
 
 // Grab a random sample of letters from the alphabet, in alphabetical order.
-setInterval(function() {
-  update(d3.shuffle(alphabet)
-      .slice(0, Math.floor(Math.random() * 26))
-      .sort());
-}, 3000);
+// setInterval(ud, 1000);
+
+function ud() {
+  alphabet = d3.shuffle(alphabet)
+  update(alphabet
+      .slice(0, Math.floor(Math.random() * 26)));
+}
 
 </script>

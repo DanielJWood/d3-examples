@@ -1,0 +1,132 @@
+---
+layout: default
+---
+
+<style>
+
+text {
+  font: bold 48px monospace;
+  opacity: 0;
+}
+
+.enter {
+  fill: green;
+  transition: fill 750ms ease-out;
+}
+
+.update {
+  fill: #333;
+  transition: fill 750ms ease-out;
+}
+
+</style>
+<button onclick="ud()">update</button>
+<button onclick="mv()">move</button>
+<svg width=1000 height=1000>
+    <g class="single-rect">
+        <g class="rect-container">
+            <rect class="rotate-me" width=100 height=100 />
+        </g>
+    </g>
+    
+    <g class="group">
+        <g class="g-container">
+            <g class="rotate-me">
+                <rect width=200 height=100 />
+                <rect width=200 height=100 x=250 />
+            </g>
+        </g>
+    </g>
+</svg>
+<script>
+
+// var width = 960,
+//     height = 500;
+
+// var svg = d3.select("body").append("svg")
+//     .attr("width", width)
+//     .attr("height", height)
+//   .append("g")
+//     // .attr("transform", "translate(32," + (height / 2) + ")");
+
+// var edge = 100;
+// var bottom = 500;
+
+// var square1 = svg.append("rect")
+//   .attr("x",100)
+//   .attr("y", bottom - 10 - edge )
+//   .attr("width",edge)
+//   .attr("height",edge)
+//   .attr("stroke","red")
+//   .attr("stroke-width","2")
+//   .attr("fill","transparent")
+//   .attr("stroke-fill","#000")
+
+// # Clean SVG rotations - general solution
+// # See explanation at http://stackoverflow.com/a/14883942/406226
+
+
+var center, centerToOrigin, group;
+
+centerToOrigin = function(el) {
+  var boundingBox;
+  boundingBox = el.getBBox();
+  return {
+    x: -1 * Math.floor(boundingBox.width / 2),
+    y: -1 * Math.floor(boundingBox.height / 2)
+  };
+};
+
+group = d3.select("g.rotate-me");
+center = centerToOrigin(group.node());
+console.log(center)
+group.attr("transform", "translate(" + center.x + ", " + center.y + ")");
+
+d3.select("g.rect-container")
+    .transition()
+    .duration(1000)
+    .attr("transform", "rotate(180)")
+d3.select('g.single-rect').attr("transform", "translate(300,100)")
+
+
+// #clean rotation - group of two elements
+group = d3.select("g.rotate-me")
+center = centerToOrigin(group.node())
+group.attr("transform", "translate(" + center.x + ", " + center.y + ")");
+
+d3.select("g.g-container")
+    .transition()
+    .duration(1000)
+    .attr("transform", "rotate(180)")
+d3.select('g.group').attr("transform", "translate(300,300) scale(.5)")
+
+
+
+
+function update(data) {
+  // console.log(data)
+  // square1.transition().duration(1000)
+  //   .attr("x",10)
+}
+
+function move() {
+
+}
+
+function mv() {
+  // console.log(alphabet.sort())
+   move();
+}
+
+
+// The initial display.
+update(5);
+
+// Grab a random sample of letters from the alphabet, in alphabetical order.
+// setInterval(ud, 1000);
+
+function ud() {
+
+}
+
+</script>
