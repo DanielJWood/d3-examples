@@ -11,10 +11,10 @@ layout: default
 
     <style>
         rect {
-            fill:transparent;
-            stroke-width:1;
-            stroke: black;            
-            opacity: 0.3;
+            /*fill:transparent;*/
+            /*stroke-width:2;*/
+            /*stroke: black;            */
+            opacity: 0.4;
         }
 /*        #id1 {fill:#FF00FF;}
         #id2 {fill:#00FF00;}
@@ -25,7 +25,7 @@ layout: default
 
   </head>
   <body>
-    <button onclick="turn()">Turn</button>
+    <button onclick="click()">click</button>
     <svg width="1000" height="1000">
         <g class="group">
             <g class="g-container">
@@ -36,15 +36,15 @@ layout: default
     </svg>
 
     <script type="text/javascript">
-
-        var a = 15;
-        var bottom = 500;
+        var x = 1;
+        var a = 50;
+        var bottom = 1000;
         var c = Math.sqrt(2*Math.pow(a,2));
         var o = 1;
         var angle = 0;
         var θ = angle;
-        var length = 1000;
-        var numOfRects = 22;
+        var length = 500;
+        var numOfRects = 10;
         var rects = [];
         for (var i = 0; i < numOfRects; i++) {            
             rects.push(i)
@@ -53,20 +53,19 @@ layout: default
         var svg = d3.select("svg");
 
         var g = svg.append("g")
-            .attr("class","rect-container")
-            // .append("g").attr("class","rect-container")
+            .attr("class","rect-container")            
 
         var background = svg.append("g")
             .attr("class","background")            
         
-        // var line = background.append("line")
-        //     .attr("x1",100)
-        //     .attr("x2",800)
-        //     .attr("y1",bottom)
-        //     .attr("y2",bottom)
-        //     .attr("stroke","black")
-        //     .attr("stroke-width","1")
-        //     .attr("stroke-dasharray","5,5,0")
+        var line = background.append("line")
+            .attr("x1",100)
+            .attr("x2",800)
+            .attr("y1",bottom)
+            .attr("y2",bottom)
+            .attr("stroke","black")
+            .attr("stroke-width","1")
+            .attr("stroke-dasharray","5,5,0")
 
         g.selectAll("g")
             .data(rects)
@@ -94,6 +93,10 @@ layout: default
               return mp;
             } 
 
+        function getRandomArbitrary(min, max) {
+            return Math.random() * (max - min) + min;
+        }            
+
         centerToOrigin = function(el) {
           var boundingBox;
           boundingBox = el.getBBox();          
@@ -114,7 +117,13 @@ layout: default
 
         turn();
 
-        function turn() {    
+        function click() {
+            console.log('hello')
+            // x+=1;
+            // turn(x);
+        }
+
+        function turn(x) {    
             var easer,D,dasharray
             θ+=(45);
 
@@ -122,6 +131,13 @@ layout: default
                 .transition()
                 .ease("linear")
                 .duration(length)
+                .delay(function(d,i){
+                    if (x%2 == 0) {
+                        return 0
+                    } else{
+                        return 109*i
+                    };                                                
+                })
                 .attr("transform", function(d,i) {
                     if (i%2 == 0) {
                         return "rotate("+ θ +")"
@@ -157,10 +173,30 @@ layout: default
                 .transition()
                 .ease(easer)
                 .duration(length)
+                .delay(function(d,i){
+                    if (x = 0) {
+                        return 0
+                    } else{
+                        return 109*i
+                    };                                                
+                })
                 .attr("transform", function(d,i) { 
                     // return "translate(500," + (bottom - (i*a))+")"                    
                     return "translate(500," + mp(D,i) +")"                    
                 });
+
+            d3.selectAll('rect')
+                .each(function() {
+                    d3.select(this)
+                        .transition()
+                        .duration(length)         
+                        // .attr("width",getRandomArbitrary((0.91*a),(1.01*a)))
+                        // .attr("height",getRandomArbitrary((0.8*a),(1.2*a)))
+                        .attr("fill", function(d,i) {
+                            return "hsl(" + ((1/(d+1)) * 360) + ",100%,50%)";                
+                        })
+                    })                        
+                
         }
 
     </script>
