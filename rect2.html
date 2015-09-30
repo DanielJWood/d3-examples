@@ -25,7 +25,7 @@ layout: default
 
   </head>
   <body>
-    <button onclick="click()">click</button>
+    <button onclick="cl()">click</button>
     <svg width="1000" height="1000">
         <g class="group">
             <g class="g-container">
@@ -36,9 +36,9 @@ layout: default
     </svg>
 
     <script type="text/javascript">
-        var x = 1;
+        var x = 0;
         var a = 50;
-        var bottom = 1000;
+        var bottom = 900;
         var c = Math.sqrt(2*Math.pow(a,2));
         var o = 1;
         var angle = 0;
@@ -88,6 +88,12 @@ layout: default
         
         var center, centerToOrigin, group;
 
+        function cl() {
+            console.log(x)
+            x+=1;
+            turn(x);
+        }
+
         function mp(D,i) {
               var mp = (bottom - D - (i*D-D/2));
               return mp;
@@ -116,12 +122,6 @@ layout: default
         rect.attr("transform", "translate(" + center.x + ", " + center.y + ")");
 
         turn();
-
-        function click() {
-            console.log('hello')
-            // x+=1;
-            // turn(x);
-        }
 
         function turn(x) {    
             var easer,D,dasharray
