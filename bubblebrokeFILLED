@@ -79,7 +79,7 @@ var statesPlusTest = []
 			var j = 1;
 			var add = 0;
 			var w = 1000;
-			var h = 500;
+			var h = 5000;
 			var AxisPaddingTop = 20;
 			var AxisPaddingLeft = 150;
 			var StandardPadding = 20;
@@ -121,18 +121,23 @@ var statesPlusTest = []
 
 			sortFunction(statesPlus,j,x,type)
 
-			for (var i = 0; i < x.length; i++) {
-				console.log(x[i])
-			};
+			// for (var i = 0; i < x.length; i++) {
+			// 	console.log(x[i])
+			// };
 
 			// temp
 			var	statesPlusx = x;
 
-			console.log(statesPlusx[0].data[type].y13)
 
+			// What kind of scale?
 			var xScale1 = d3.scale.linear()
-                 .domain([0, d3.max(statesPlus, function(d) {return d.data[type].y13; })])
-                 .range([AxisPaddingLeft, w-(StandardPadding*2)]);
+				// .domain([1,1000,10000])
+                 .domain([1, d3.max(statesPlusx, function(d) {
+                 	// The plus turns it into a float from a string
+                 	return +d.data[type].y13; })])    
+                 // .domain([1,5000])             
+                 // .range([AxisPaddingLeft, w - (StandardPadding*5) ,w-(StandardPadding*2)]);\
+                 .range([AxisPaddingLeft,w-(StandardPadding*2)]);
 
 			var xAxis1 = d3.svg.axis()
 				.scale(xScale1)
@@ -328,12 +333,13 @@ var statesPlusTest = []
 			return data;
 		}
 
-		function sortList2 (data, type) {
-			console.log('test')
+		function sortList2 (data, type) {			
 			data = data.sort(function(a,b){
-				if (a.data[type].y13 < 	b.data[type].y13) {
+				a = +a.data[type].y13
+				b = +b.data[type].y13
+				if (a < b) {
 				    return -1;
-				} else if (a.data[type].y13 > b.data[type].y13) { 
+				} else if (a > b) { 
 				    return 1;
 				}
 			});
@@ -365,13 +371,10 @@ var statesPlusTest = []
 				};			
 			};
 		};
-		// for (var i = 0; i < newListx.length; i++) {			
-		// 	console.log(newListx[i])
-		// };
-		
-		// for (var i = 0; i < statesPlusx.length; i++) {
-		// 	console.log(statesPlusx[i])
-		// };
+
+		for (var i = 0; i < newListx.length; i++) {
+			console.log("Name: " + newListx[i].name + " | Rank: " + newListx[i].sortID + " | Value: " + newListx[i].data.gross.y13 )
+		};
 	
 		return statesPlus,statesPlusx
 	}
