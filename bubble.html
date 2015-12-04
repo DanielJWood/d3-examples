@@ -1,0 +1,278 @@
+---
+layout: default
+---
+
+<style>
+	.enter {
+	  fill: green;
+	  transition: fill 750ms ease-out;
+	}
+	.axis path,
+	.axis line {
+		fill: none;
+		stroke: black;
+		shape-rendering: crispEdges;
+	}
+	
+	.axis text {
+		font-family: sans-serif;
+		font-size: 11px;
+	}
+
+</style>
+
+<button id="upbutton" onclick="firstbutton()">update</button>
+<button onclick="world()">world</button>
+
+<script>
+// Create some data
+// Create a bubble with that data
+// Update that data smoothely 
+d3.json("/js/usaco2.json", function(error, usdata) {
+	d3.json("/js/worldco2.json", function(error, worlddata) {
+		//Everything launches from here?
+
+		// ud(usdata, worlddata)
+		
+		ud(dataProcess(usdata,worlddata))
+	});
+});
+
+var statesPlusTest = []
+
+		// Process the data into awesomesauce stuff ;)
+		function dataProcess(usdata,worlddata) {
+			var stData = usdata.states;
+			var cyData = worlddata.countries;
+
+			for (i in stData) {
+				statesPlusTest.push(stData[i])
+			};
+
+			// console.log(statesPlusTest[2])
+
+			// [i].id = ID
+			// [i].name = Name
+			// [i].data.gross.pctchng = gross % change data
+			// [i].data.gross.y00 = gross y00 data
+			// [i].data.gross.y13 = gross y13 data
+
+			// HERE WILL GO, PUSH IN THE ITEM FROM THE NEW COUNTRY.
+			return statesPlusTest
+		};
+
+
+			var states = [
+							[10, 20,"California"], [10, 90,"Abington"], [10, 50,"French"], [100, 33,"Carb"], [330, 95,"Lleywn"],
+							[410, 12,"Twank"], [475, 44,"Apolonia"], [25, 67,"Facker"], [85, 21,"Podle"], [220, 88,"Bubledal"],[220, 88,"Bubledal"],[650,150,"ChickenSqua"]
+						  ];
+
+			var countries = [
+							[50, 200,"Dalton"], [1480, 90,"Calib"], [50, 50,"Chalk"], [100, 33,"Vernal"], [330, 95,"Flipmite"],
+							[410, 12,"Alkala"], [475, 44,"Carapd"], [25, 67,"asd"], [85, 21,"asdf"], [220, 88,"wer"],[650,150,"astas"]
+						  ];	
+
+			//indexes, Width and height, Padding, parameters
+			var j = 1;
+			var add = 0;
+			var w = 1000;
+			var h = 500;
+			var AxisPaddingTop = 20;
+			var AxisPaddingLeft = 150;
+			var StandardPadding = 20;
+			var BubblePadding = 5;
+			var r = 10;
+			var AddCountries = 4;
+			var dlengthMin = states.length
+			var dlengthMax = dlengthMin + AddCountries;			
+					 
+			var statesPlus = states
+
+			//Create SVG element
+			var svg = d3.select("body")
+						.append("svg")
+						.attr("width", w)
+						.attr("height", h);  	
+
+			svg.append("g")
+			    .attr("class", "axis")  //Assign "axis" class
+			    .attr("transform", "translate(0," + (AxisPaddingTop) + ")")
+
+
+		function update(statesPlus,j) {
+
+			// Add in new data. 
+			// check max and min
+				//if change, define the new range and axis
+			// 			
+			sorter(statesPlus,j)				
+
+			var xScale1 = d3.scale.linear()
+                 .domain([0, d3.max(statesPlus, function(d) {return d[j]; })])
+                 .range([AxisPaddingLeft, w-(StandardPadding*2)]);
+
+			var xAxis1 = d3.svg.axis()
+				.scale(xScale1)
+				.orient("top")
+				.ticks(10);
+
+			svg.selectAll("g.axis")
+				.transition() //maybe remove
+				.duration(2000) 
+				.call(xAxis1);
+
+			svg.selectAll("circle")
+			   .data(statesPlus)
+			   .enter()
+			   .append("circle")
+
+			svg.selectAll("text.bubbles")
+			   .data(statesPlus)
+			   .enter()
+			   .append("text")
+			   .attr("class","bubbles")
+
+			svg.selectAll("text.names")
+			   .data(statesPlus)
+			   .enter()
+			   .append("text")
+			   .attr("class","names")
+
+			svg.selectAll("circle")
+			   	.transition()
+			   	.duration(2000)
+			   	.attr("cx", function(d) {
+			   		return xScale1(d[j])
+			    })
+			    .attr("cy",function(d,i){
+			    	// console.log(i + ": " +  d[2] )
+			   		return (AxisPaddingTop + 20 + ((i)*2*r) + (i*BubblePadding))
+				})
+				.attr("r", "10px")
+
+			svg.selectAll("text.bubbles")
+			   .transition()
+			   .duration(2000)
+			   .text(function(d) {
+			   		return d[j];
+			   })
+			   	.attr("x", function(d) {
+			   		return xScale1(d[j])
+			    })
+			   .attr("y",function(d, i){
+			   		return (AxisPaddingTop + 20 + ((i)*2*r) + (i*BubblePadding))
+			   })
+			   .attr("font-family", "sans-serif")
+			   .attr("font-size", "11px")
+			   .attr("fill", "red");
+
+			svg.selectAll("text.names")			
+				.transition()
+				.duration(2000)
+				.text(function(d) {
+					return d[2];
+				})
+				.attr("x", function(d) {
+					return StandardPadding
+				})
+				.attr("y",function(d, i){
+					return (AxisPaddingTop + 20 + ((i)*2*r) + (i*BubblePadding))
+				})
+				.attr("font-family", "sans-serif")
+				.attr("font-size", "11px");
+				
+
+			// statesPlus = sorter(statesPlus,j)	   	
+
+
+			// var bubble2 = svg.selectAll("circle")
+
+			// bubble2.transition()
+			//    	.duration(2000)
+			//     .attr("cy",function(d,i){
+			//     	console.log(i + ": " +  d[2] )
+			//    		return (AxisPaddingTop + 20 + ((i)*2*r) + (i*BubblePadding))
+			// 	})
+			// 	.attr("r", "10px")
+			//    	.attr("cx", function(d) {
+			//    		return xScale1(d[j])
+			//     })
+
+			  // ADD THE EXIT TOO!!!
+			  // Remove old elements as needed.
+			  // text.exit().remove();				
+		}			
+
+		function ud(x) {
+
+			// console.log(x)
+
+			// dataProcess()
+
+			//iterate between the options
+			if (j==0) {j+=1}
+			// states.push(countries[1])} 
+			else{
+				j-=1
+				// console.log(countries[1])				
+			};
+			update(states,j);
+		}
+
+		function firstbutton(){
+			ud()
+		}
+
+function sorter(statesPlus,j){
+	var raw = []
+
+	raw = statesPlus
+	for (var i = 0; i < raw.length; i++) {		
+		// set an index for each datapoint
+		raw[i][3] = i;
+		raw[i][4] = 0;		
+	};
+
+	// Sort Everything based on the order of importance!!!
+	rawSORT = raw.sort(function(a,b){
+		if (a[j] > b[j]) {
+			return -1;
+		} else if (a[j] < b[j]) { 
+			return 1;
+		}
+	});
+
+	console.log('awfa')
+
+	for (var i = 0; i < rawSORT.length; i++) {
+		rawSORT[i][4] = i;
+	};
+
+	for (var i = 0; i < raw.length; i++) {
+		console.log(rawSORT[i])
+		rawSORT[i]
+		if (raw[i][3] === rawSORT[i][3]) {
+			console.log('hello')
+			raw[i][4] = rawSORT[i][4]
+		};
+	};
+
+	// return raw
+
+// What if instead of sorting the json, we add in data to the json about the rank, every time....the nodes stay in the same index but we hang them based on the rank "r" instead of index "i"
+// We do this each time we run, because it matters based on the type (j) that we're 
+// 1) erase previous rank "r"
+// 2) sort 
+// 3) push new "r"
+
+}
+
+		// Figure out flow of
+			// data
+			// functions (ud()? button enters to switch the j but not to reprocess the data?)
+			//Sort! get the sort to work.
+		// switch over functions to be from world data/state data
+		// add in bar graph
+
+</script>
+

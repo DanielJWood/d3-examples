@@ -1,5 +1,3 @@
-console.log('hello')
-
 // A modified d3.geo.albersUsa to include Puerto Rico.
 function albersUsaPr() {
   var ε = 1e-6;
@@ -19,9 +17,10 @@ function albersUsaPr() {
       .parallels([8, 18]);
 
   // XXX? You should check that this is a standard PR projection!
+  // Edited to allow PR to be next to Hawaii --DW
   var puertoRico = d3.geo.conicEqualArea()
       .rotate([66, 0])
-      .center([0, 18])
+      .center([26, 16.6])
       .parallels([8, 18]);
 
   var point,
@@ -137,9 +136,11 @@ function albersUsaPr() {
         .clipExtent([[x - .214 * k + ε, y + .166 * k + ε], [x - .115 * k - ε, y + .234 * k - ε]])
         .stream(pointStream).point;
 
+  // Edited to allow PR to be next to Hawaii --DW
     puertoRicoPoint = puertoRico
         .translate([x + .350 * k, y + .224 * k])
-        .clipExtent([[x + .320 * k, y + .204 * k], [x + .380 * k, y + .234 * k]])
+        .clipExtent([[x - .115 * k, y + .204 * k], [x - .055 * k, y + .234 * k]])
+        // .clipExtent([[x - .115 * k, y + .204 * k], [x + 1 * k, y + .234 * k]])
         .stream(pointStream).point;
 
     return albersUsa;

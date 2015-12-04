@@ -26,25 +26,29 @@ layout: default
   </head>
   <body>
     <button onclick="turn()">Turn</button>
-    <svg width="1000" height="1000">
-<!--         <g class="single-rect">
+    <!-- <svg width="1000" height="1000">
+        <g class="single-rect">
             <g class="rect-container">
                 <rect class="rotate-me" width=100 height=100 />
             </g>
         </g>
-         -->
+        
         <g class="group">
             <g class="g-container">
                 <g class="rotate-me">
                 </g>
             </g>
         </g>
-    </svg>
+    </svg> -->
 
     <script type="text/javascript">
 
-        var a = 100;
-        var bottom = 500;
+        var margin = 0,
+            width = parseInt(d3.select("body").style("width")) - margin*2,
+            height = width / 2;
+
+        var a = width / 10;
+        var bottom = height - (height/10);
         var c = Math.sqrt(2*Math.pow(a,2));
         var o = 1;
         var angle = 0;
@@ -53,7 +57,15 @@ layout: default
         var rects = [1,2,1]
         console.log(rects)
 
-        var svg = d3.select("svg");
+        var svg = d3.select("body")
+            .append("svg");
+
+        svg
+          .attr("width", width + margin*2)
+          .attr("height", height + margin*2)
+            .append("g").attr("class","group")
+              .append("g").attr("class","rotate-me")
+
 
         var g = svg.append("g")
             .attr("class","rect-container")
@@ -62,9 +74,20 @@ layout: default
         var background = svg.append("g")
             .attr("class","background")            
         
-        var line = background.append("line")
-            .attr("x1",100)
-            .attr("x2",800)
+        resize();
+
+        function resize() {
+          // d3.selectAll("rect").remove()
+
+        var margin = 0,
+            width = parseInt(d3.select("body").style("width")) - margin*2,
+            height = width / 2;
+
+            console.log(width)
+
+          var line = background.append("line")            
+            .attr("x1",(width/10))
+            .attr("x2",width-width/10)
             .attr("y1",bottom)
             .attr("y2",bottom)
             .attr("stroke-width","2")
@@ -126,6 +149,8 @@ layout: default
                 };            
             })  
 
+        }      
+
         function turn() {    
             var easer,mp1,mp2,mp3
             θ+=45;
@@ -169,6 +194,8 @@ layout: default
                     return "translate(500," + mp3 +")"
                 });
         }
+      
+      d3.select(window).on('resize', resize); 
 
     </script>
 

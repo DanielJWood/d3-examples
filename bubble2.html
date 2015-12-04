@@ -1,0 +1,382 @@
+---
+layout: default
+---
+
+<!-- 
+1) Load Json 1, load json 2
+2) send jsons into data process
+3) send resulting data into ud
+4) ud calls update (oscillating between j=1, j=2)
+5) update calls sort
+6) sorts data places back into update
+7) builds items and moves them around.
+
+1) click update button (< needs to be the process of searching.)
+2) hits ud (<need to send in data here too) **********
+4) ud calls update (oscillating between j=1, j=2)
+5) update calls sort
+6) sorts data places back into update
+7) builds items and moves them around.
+
+
+
+ -->
+
+<style>
+	.enter {
+	  fill: green;
+	  transition: fill 750ms ease-out;
+	}
+	.axis path,
+	.axis line {
+		fill: none;
+		stroke: black;
+		shape-rendering: crispEdges;
+	}
+	
+	.axis text {
+		font-family: sans-serif;
+		font-size: 11px;
+	}
+
+</style>
+
+<button id="upbutton" onclick="firstbutton()">update</button>
+<button onclick="world()">world</button>
+
+<script>
+// Create some data
+// Create a bubble with that data
+// Update that data smoothely 
+d3.json("/js/usaco2.json", function(error, usdata) {
+	d3.json("/js/worldco2.json", function(error, worlddata) {
+		//Everything launches from here?
+
+		// ud(usdata, worlddata)
+		
+		// This Runs the first process on load!!!!
+			// it is a nested function...there might be a better way to do this. 
+		ud(dataProcess(usdata,worlddata))
+	});
+});
+
+var statesPlusTest = []
+
+
+			var states = [
+							[10, 20,"California"], [10, 90,"Abington"], [10, 50,"French"], [100, 33,"Carb"], [330, 95,"Lleywn"],
+							[410, 12,"Twank"], [475, 44,"Apolonia"], [25, 67,"Facker"], [85, 21,"Podle"], [220, 8,"Bubledal"],[220, 88,"Bubledal"],[650,150,"ChickenSqua"]
+						  ];
+
+			var countries = [
+							[50, 200,"Dalton"], [1480, 90,"Calib"], [50, 50,"Chalk"], [100, 33,"Vernal"], [330, 95,"Flipmite"],
+							[410, 12,"Alkala"], [475, 44,"Carapd"], [25, 67,"asd"], [85, 21,"asdf"], [220, 88,"wer"],[650,150,"astas"]
+						  ];	
+
+			//indexes, Width and height, Padding, parameters
+			var q = 0
+			var o = 0;
+			var j = 1;
+			var add = 0;
+			var w = 1000;
+			var h = 5000;
+			var AxisPaddingTop = 20;
+			var AxisPaddingLeft = 150;
+			var StandardPadding = 20;
+			var BubblePadding = 5;
+			var r = 10;
+			var AddCountries = 4;
+			var dlengthMin = states.length
+			var dlengthMax = dlengthMin + AddCountries;			
+					 
+			var statesPlus = states
+
+			//Create SVG element
+			var svg = d3.select("body")
+						.append("svg")
+						.attr("width", w)
+						.attr("height", h);  	
+
+			svg.append("g")
+			    .attr("class", "axis")  //Assign "axis" class
+			    .attr("transform", "translate(0," + (AxisPaddingTop) + ")")
+
+
+		function update(statesPlus,j,x) {
+			// Add in new data. 
+			// check max and min
+				//if change, define the new range and axis
+			// 			
+
+			// interpret j
+			if (j  === 0) {
+				var type = "gross"
+			} else if (j === 1) {
+				var type = "percap"		
+			};
+
+			// for (var i = 0; i < x.length; i++) {
+			// 	console.log(x[i])
+			// };
+
+			sortFunction(statesPlus,j,x,type)
+
+			// for (var i = 0; i < x.length; i++) {
+			// 	console.log(x[i])
+			// };
+
+			// temp
+			var	statesPlusx = x;
+
+
+			// What kind of scale?
+			var xScale1 = d3.scale.linear()
+				// .domain([1,1000,10000])
+                 .domain([1, d3.max(statesPlusx, function(d) {
+                 	// The plus turns it into a float from a string
+                 	return +d.data[type].y13; })])    
+                 // .domain([1,5000])             
+                 // .range([AxisPaddingLeft, w - (StandardPadding*5) ,w-(StandardPadding*2)]);\
+                 .range([AxisPaddingLeft,w-(StandardPadding*2)]);
+
+			var xAxis1 = d3.svg.axis()
+				.scale(xScale1)
+				.orient("top")
+				.ticks(10);
+
+			svg.selectAll("g.axis")
+				.transition() //maybe remove
+				.duration(2000) 
+				.call(xAxis1);
+
+			svg.selectAll("circle")
+			   .data(statesPlusx)
+			   .enter()
+			   .append("circle")
+
+			svg.selectAll("text.bubbles")
+			   .data(statesPlusx)
+			   .enter()
+			   .append("text")
+			   .attr("class","bubbles")
+
+			svg.selectAll("text.names")
+			   .data(statesPlusx)
+			   .enter()
+			   .append("text")
+			   .attr("class","names")
+
+			svg.selectAll("circle")
+			   	.transition()
+			   	.duration(2000)
+			   	.attr("id",function(d){
+			   		return "a"+d.name
+			   	})
+			   	.attr("cx", function(d) {
+			   		return xScale1(d.data[type].y13)
+			    })			 
+				.attr("r", "10px")
+
+			svg.selectAll("text.bubbles")
+			   .transition()
+			   .duration(2000)
+			   .text(function(d) {
+			   		return d.data[type].y13;
+			   })
+			   	.attr("x", function(d) {
+			   		return xScale1(d.data[type].y13)
+			    })
+			   .attr("font-family", "sans-serif")
+			   .attr("font-size", "11px")
+			   .attr("fill", "red");
+
+			svg.selectAll("text.names")			
+				.transition()
+				.duration(2000)
+				.text(function(d) {
+					return d.name;
+				})
+				.attr("x", function(d) {
+					return StandardPadding
+				})				
+				.attr("font-family", "sans-serif")
+				.attr("font-size", "11px");				
+
+
+			// Load initial positions.....improve!!!
+			// When it is improved, it will more smoothly add in the new stuff, instead of popping in. needs to be fixed each time something new 	is addeded
+			if (o === 0) {
+				svg.selectAll("circle").attr("cy",function(d,i){			    	
+			   		return (AxisPaddingTop + 20 + ((i)*2*r) + (i*BubblePadding))
+				})
+				svg.selectAll("text.bubbles").attr("y",function(d, i){
+					return (AxisPaddingTop + 20 + ((i)*2*r) + (i*BubblePadding))
+				})
+				svg.selectAll("text.names").attr("y",function(d, i){
+					return (AxisPaddingTop + 20 + ((i)*2*r) + (i*BubblePadding))
+				})
+				// disable the initial 
+				o+=1;
+			};
+
+			// Do the second layer of transitions after the first fires
+			svg.selectAll("circle")
+				.transition().duration(2000).delay(2000)
+			    .attr("cy",function(d,i){			  
+			   		return (AxisPaddingTop + 20 + ((d.sortID)*2*r) + (d.sortID*BubblePadding))
+				})
+
+			svg.selectAll("text.bubbles")
+				.transition().duration(2000).delay(2000)
+				.attr("y",function(d, i){
+			   		return (AxisPaddingTop + 20 + ((d.sortID)*2*r) + (d.sortID*BubblePadding))
+				})
+
+			svg.selectAll("text.names")
+				.transition().duration(2000).delay(2000)
+				.attr("y",function(d, i){
+			   		return (AxisPaddingTop + 20 + ((d.sortID)*2*r) + (d.sortID*BubblePadding))
+				})
+
+			  // ADD THE EXIT TOO!!!
+			  // Remove old elements as needed.
+			  // text.exit().remove();			
+		}			
+
+// ////////////////////////
+
+		// Process the data into awesomesauce stuff ;)
+		function dataProcess(usdata,worlddata) {
+			var stData = usdata.states;
+			var cyData = worlddata.countries;
+
+			for (i in stData) {
+				statesPlusTest.push(stData[i])
+			};
+
+			var fart = "gross"
+
+			// console.log(stData[0].data[fart].pctchg)			
+
+			// [i].id = ID
+			// [i].name = Name
+			// [i].data.gross.pctchg = gross % change data
+			// [i].data.gross.y00 = gross y00 data
+			// [i].data.gross.y13 = gross y13 data
+
+			// HERE WILL GO, PUSH IN THE ITEM FROM THE NEW COUNTRY.
+			return statesPlusTest
+		};
+
+		function ud(x) {
+			// dataProcess()
+
+			//iterate between the options
+			if (j==0) {
+				j+=1
+				q+=1;
+				states.push(countries[q])
+			}
+			
+			else{
+				j-=1
+			};
+			update(states,j,x);
+		}
+
+		function firstbutton(){
+			ud()
+		}
+
+		// Figure out flow of
+		// 	data
+		// 	functions (ud()? button enters to switch the j but not to reprocess the data?)
+		// 	Sort! get the sort to work.
+		// switch over functions to be from world data/state data
+		// add in bar graph
+
+
+	function sortFunction (statesPlus,j,statesPlusx,type) {		
+		//define the rename
+		var copy = JSON.parse(JSON.stringify(statesPlus));
+		//index the rename
+		for (var i = 0; i < copy.length; i++) {
+			copy[i][3] = i;
+			copy[i][4] = 0;
+			statesPlus[i][3] = i;
+			statesPlus[i][4] = 0;
+		};
+
+		// console.log(x[0].nodeId)		
+
+		var copy2 = JSON.parse(JSON.stringify(statesPlusx)); //maybe don't need for json?
+		//index the rename
+		for (var i = 0; i < copy2.length; i++) {
+			copy2[i].nodeID = i;
+			copy2[i].sortID = 0;
+			statesPlusx[i].nodeID = i; //will this update itself?
+			statesPlusx[i].sortID = 0;
+		};
+
+		function sortList (data, j) {
+
+			data = data.sort(function(a,b){
+				if (a[j] < 	b[j]) {
+				    return -1;
+				} else if (a[j] > b[j]) { 
+				    return 1;
+				}
+			});
+			for (var i = 0; i < data.length; i++) {		
+				data[i][4] = i;
+			};
+			return data;
+		}
+
+		function sortList2 (data, type) {			
+			data = data.sort(function(a,b){
+				a = +a.data[type].y13
+				b = +b.data[type].y13
+				if (a < b) {
+				    return -1;
+				} else if (a > b) { 
+				    return 1;
+				}
+			});
+			// create sorted index ... sortID
+			for (var i = 0; i < data.length; i++) {		
+				data[i].sortID = i;
+			};
+			return data;
+		}
+
+	// //////////// SORTING
+
+		var newList = sortList(copy,j)
+		var newListx = sortList2(copy2,type)
+		console.log('post function, original, and sorted')		
+
+		for (var i = 0; i < statesPlus.length; i++) {
+			for (var k = 0; k < newList.length; k++) {
+				if (statesPlus[i][3] === newList[k][3]) {
+					statesPlus[i][4] = newList[k][4]			
+				};			
+			};
+		};		
+
+		for (var i = 0; i < statesPlusx.length; i++) {
+			for (var k = 0; k < newListx.length; k++) {
+				if (statesPlusx[i].nodeID === newListx[k].nodeID) {
+					statesPlusx[i].sortID = newListx[k].sortID
+				};			
+			};
+		};
+
+		for (var i = 0; i < newListx.length; i++) {
+			console.log("Name: " + newListx[i].name + " | Rank: " + newListx[i].sortID + " | Value: " + newListx[i].data.gross.y13 )
+		};
+	
+		return statesPlus,statesPlusx
+	}
+</script>
+

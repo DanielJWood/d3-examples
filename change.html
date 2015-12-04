@@ -92,7 +92,6 @@ console.log(data)
       for (var j = 0; j < raw.length; j++) {
         if (raw[j]==d) {
           return Math.pow(j,0.5) * 100;
-          break
         }
       }
     })
@@ -101,8 +100,7 @@ console.log(data)
       var n = d.charCodeAt(0) - 97;
       for (var j = 0; j < raw.length; j++) {
         if (raw[j]==d) {
-          return j * 32;
-          break
+          return j * 32;          
         } 
       };
       
@@ -110,44 +108,6 @@ console.log(data)
 
 }
 
-function move() {
-  var text2 = svg.selectAll("text")
-
-  var raw = []
-  for (var i = 0; i < text2[0].length; i++) {
-    // console.log(text2[0][i])
-    raw.push(text2[0][i].textContent)
-  };
-
-  raw = raw.sort();
-
-  text2.transition().duration(900)
-    .delay(function(d, i) {
-      console.log(d)
-      for (var j = 0; j < raw.length; j++) {
-        if (raw[j]==d) {
-          return Math.pow(j,0.5) * 100;
-          break
-        }
-      }
-    })
-    .attr("x", function(d,i){
-      // console.log(i)
-      var n = d.charCodeAt(0) - 97;
-      for (var j = 0; j < raw.length; j++) {
-        if (raw[j]==d) {
-          return j * 32;
-          break
-        } 
-      };
-      
-    })
-}
-
-function mv() {
-  // console.log(alphabet.sort())
-   move();
-}
 
 
 // The initial display.
