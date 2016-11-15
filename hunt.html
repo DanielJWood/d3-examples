@@ -1,0 +1,198 @@
+---
+layout: keybind
+---
+
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+
+    <!-- // <script src="http://d3js.org/d3.v3.min.js"></script> -->
+
+    <style>
+    #master {
+      border: 1px black solid;
+      width: 950px;
+      height: 400px;
+    }    
+        circle, rect {
+/*            fill:transparent;
+            stroke-width:1;
+            stroke: black;*/
+            opacity: 0.3;
+        }
+        #id1 {fill:#FF00FF;}
+        .id2 {fill:#00FF00;}
+        #id3 {fill:#EE4000;}
+
+
+    </style>
+
+  </head>
+  <body>
+    <button onclick="turn()">Turn</button>
+
+    <div id="master">
+
+    </div>
+
+
+    <script type="text/javascript">
+var width = 950, height = 400;
+var svg = d3.select("#master").append("svg")
+  .attr("width", width)
+  .attr("height", height)
+  .append("g")
+    .attr("transform", "translate(0,0)");
+
+function randomIntFromInterval(min,max)
+{
+    return Math.floor(Math.random()*(max-min+1)+min);
+}
+
+var direction;
+var zi = 0;
+var xm, ym;
+var point = [width/2, height/2];
+var momentum = [0, 0];
+var bullet = [0, 0];
+var stoneData = stoneDataGen();
+function stoneDataGen() {
+  var data = [];
+  var MinNumStones = 20;
+  var MaxNumStones = 45;
+  var NumStones = randomIntFromInterval(MinNumStones,MaxNumStones)
+  for (var i = 0; i < NumStones; i++) {
+    data[i] = {};
+    data[i].id = i;
+    data[i].height = randomIntFromInterval(30,80);
+    data[i].width = randomIntFromInterval(40,80);
+    data[i].coord = [randomIntFromInterval(5,width),randomIntFromInterval(5,height)];    
+  };
+
+  return data;
+}
+
+var circle = svg.append("circle")
+    .datum(point)
+    .attr("r", 10)
+    .attr("id","id1");
+
+var stones = svg.selectAll(".stones")
+    .data(stoneData)
+    .enter()
+    .append("rect")
+      .attr("class","stones")
+      .attr('transform', function(d) { 
+        return 'translate(' + d.coord + ')'; })
+      .attr('width',function(d){return d.width})
+      .attr('height',function(d){return d.height})
+      .attr("class","id3");
+
+function move(x, y, d) {
+    return function(event) {
+        event.preventDefault();
+        direction = d;  
+        xm = x;
+        ym = y;      
+        var nextPoint = [point[0] + (x*10),point[1] + (y*10)]
+
+        // Detect if its going to run into a barrier. 
+        if (detect(nextPoint) != true) {
+          momentum = [momentum[0] + x, momentum[1] + y];                  
+        };
+    };
+}
+
+function detect(nP) {
+  var npx = nP[0];
+  var npy = nP[1];
+
+  for (var i = 0; i < stoneData.length; i++) {
+  
+    var ax = stoneData[i].coord[0];
+    var ay = stoneData[i].coord[1];
+    var bx = ax + stoneData[i].width;
+    var by = ay*1;
+    var dx = ax*1;
+    var dy = ay + stoneData[i].height;
+    var bax = bx - ax;
+    var bay = by - ay;
+    var dax = dx - ax;
+    var day = dy - ay;
+
+    if ((npx - ax) * bax + (npy - ay) * bay < 0.0) {}
+    else if ((npx - bx) * bax + (npy - by) * bay > 0.0) {}
+    else if ((npx - ax) * dax + (npy - ay) * day < 0.0) {}
+    else if ((npx - dx) * dax + (npy - dy) * day > 0.0) {}
+    else {return true};
+  };
+}
+
+function shoot() {    
+    return function(event) {
+      // event.preventDefault();
+      zi += 1;
+
+      var bp = [point[0],point[1]];
+      if (direction === 0) {bp[0] = 0;}
+      else if (direction === 1) {bp[1] = 0;}
+      else if (direction === 2) {bp[0] = width;}
+      else if (direction === 3) {bp[1] = height;}
+      else {};
+
+      var bulletpoint = bp;
+
+      var rect = svg.append("rect")
+        .attr('transform', function(d) { return 'translate(' + point + ')'; })
+        .attr('width',"10")
+        .attr('height',"10")
+        .attr("class","id2 zi" + zi);
+
+      loop();
+
+      function loop() {        
+
+        // console.log(xm)
+        // console.log(ym)        
+        var nowPoint = [point[0]+xm,point[1]+ym];
+        // console.log(nowPoint)
+
+        if (nowPoint === bulletpoint) {
+          // console.log('end');
+        };
+        rect.transition()
+          .ease("linear")
+          .duration(3000)        
+          .attr('transform', function(d) { return 'translate(' + nowPoint + ')'; })
+          .each('end',function(){
+            loop();
+          })  
+      }
+      
+    };
+}
+
+d3.select('body').call(d3.keybinding()
+    .on('←', move(-2, 0, 0))
+    .on('↑', move(0, -2, 1))
+    .on('→', move(2, 0, 2))
+    .on('↓', move(0, 2, 3))
+    .on('z', shoot()));
+
+window.setInterval(shoot(), 150);
+
+d3.timer(function() {  
+
+    point[0] = Math.min(width,  Math.max(0, momentum[0] + point[0]));
+    point[1] = Math.min(height, Math.max(0, momentum[1] + point[1]));
+    circle
+        .datum(point)
+        .attr('transform', function(d) { return 'translate(' + d + ')'; });
+    momentum[0] *= 0.9;
+    momentum[1] *= 0.9;
+});
+
+    </script>
+  </body>
+</html>  
