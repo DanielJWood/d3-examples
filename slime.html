@@ -59,14 +59,14 @@ var bullet = [0, 0];
 var stoneData = stoneDataGen();
 function stoneDataGen() {
   var data = [];
-  var MinNumStones = 5;
-  var MaxNumStones = 13;
+  var MinNumStones = 20;
+  var MaxNumStones = 45;
   var NumStones = randomIntFromInterval(MinNumStones,MaxNumStones)
   for (var i = 0; i < NumStones; i++) {
     data[i] = {};
     data[i].id = i;
-    data[i].height = randomIntFromInterval(50,100);
-    data[i].width = randomIntFromInterval(40,100);
+    data[i].height = randomIntFromInterval(30,80);
+    data[i].width = randomIntFromInterval(40,80);
     data[i].coord = [randomIntFromInterval(5,width),randomIntFromInterval(5,height)];    
   };
 
@@ -131,7 +131,7 @@ function detect(nP) {
 
 function shoot() {    
     return function(event) {
-      event.preventDefault();
+      // event.preventDefault();
       zi += 1;
 
       var bp = [point[0],point[1]];
@@ -153,20 +153,19 @@ function shoot() {
 
       function loop() {        
 
-        console.log(xm)
-        console.log(ym)        
+        // console.log(xm)
+        // console.log(ym)        
         var nowPoint = [point[0]+xm,point[1]+ym];
-        console.log(nowPoint)
+        // console.log(nowPoint)
 
         if (nowPoint === bulletpoint) {
-          console.log('end');
+          // console.log('end');
         };
         rect.transition()
           .ease("linear")
-          .duration(1000)        
+          .duration(3000)        
           .attr('transform', function(d) { return 'translate(' + nowPoint + ')'; })
           .each('end',function(){
-            console.log('end')
             loop();
           })  
       }
@@ -180,6 +179,8 @@ d3.select('body').call(d3.keybinding()
     .on('→', move(2, 0, 2))
     .on('↓', move(0, 2, 3))
     .on('z', shoot()));
+
+window.setInterval(shoot(), 150);
 
 d3.timer(function() {  
 
