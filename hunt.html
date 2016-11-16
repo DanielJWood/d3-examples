@@ -39,6 +39,7 @@ layout: keybind
 
     <script type="text/javascript">
 var width = 950, height = 400;
+var origin = [0,0];
 var svg = d3.select("#master").append("svg")
   .attr("width", width)
   .attr("height", height)
@@ -98,35 +99,54 @@ function move(x, y, d) {
         var nextPoint = [point[0] + (x*10),point[1] + (y*10)]
 
         // Detect if its going to run into a barrier. 
-        if (detect(nextPoint) != true) {
+        if (detectStone(nextPoint) != true) {
+          // console.log('dt')
           momentum = [momentum[0] + x, momentum[1] + y];                  
         };
     };
 }
 
-function detect(nP) {
+function detectStone(nP) {
+  for (var i = 0; i < stoneData.length; i++) {
+    // console.log('hello')
+      
+    
+    var rO = stoneData[i].coord; //stone origin
+    var rW = stoneData[i].width; //stone width
+    var rH = stoneData[i].height; //stone height
+
+    // only return if its true, otherwise don't return, cuz that will break. 
+    if (detect(nP,rO,rW,rH) === true) {
+      return true;
+    } 
+  };
+}
+
+function detect(nP,rO,rW,rH) {
+  //next point
   var npx = nP[0];
   var npy = nP[1];
+  //rectangle origin
+  var ax = rO[0];
+  var ay = rO[1];
 
-  for (var i = 0; i < stoneData.length; i++) {
-  
-    var ax = stoneData[i].coord[0];
-    var ay = stoneData[i].coord[1];
-    var bx = ax + stoneData[i].width;
-    var by = ay*1;
-    var dx = ax*1;
-    var dy = ay + stoneData[i].height;
-    var bax = bx - ax;
-    var bay = by - ay;
-    var dax = dx - ax;
-    var day = dy - ay;
+  // other points on rectangle
+  var by = ay*1;
+  var dx = ax*1;
+  var bx = ax + rW;
+  var dy = ay + rH; 
 
-    if ((npx - ax) * bax + (npy - ay) * bay < 0.0) {}
-    else if ((npx - bx) * bax + (npy - by) * bay > 0.0) {}
-    else if ((npx - ax) * dax + (npy - ay) * day < 0.0) {}
-    else if ((npx - dx) * dax + (npy - dy) * day > 0.0) {}
-    else {return true};
-  };
+  var bax = bx - ax;
+  var bay = by - ay;
+  var dax = dx - ax;
+  var day = dy - ay;
+
+  if ((npx - ax) * bax + (npy - ay) * bay < 0.0) {}
+  else if ((npx - bx) * bax + (npy - by) * bay > 0.0) {}
+  else if ((npx - ax) * dax + (npy - ay) * day < 0.0) {}
+  else if ((npx - dx) * dax + (npy - dy) * day > 0.0) {}
+  else {
+    return true};
 }
 
 function shoot() {    
@@ -154,25 +174,32 @@ function shoot() {
     };
 }
 
-      function loop(xm,ym,point,bulletpoint,rect) {        
+function loop(xm,ym,point,bulletpoint,rect) {        
 
-        // console.log(xm)
-        // console.log(ym)        
-        var nowPoint = [point[0]+(xm*10),point[1]+(ym*10)];
-        console.log(nowPoint)
+  // console.log(xm)
+  // console.log(ym)        
+  var nowPoint = [point[0]+(xm*10),point[1]+(ym*10)];
+  // console.log(nowPoint)
 
-        if (nowPoint === bulletpoint) {
-          // console.log('end');
-        };
-        rect.transition()
-          .ease("linear")
-          .duration(100)        
-          .attr('transform', function(d) { return 'translate(' + nowPoint + ')'; })
-          .each('end',function(){
-            console.log('end')
-            loop(xm,ym,nowPoint,bulletpoint,rect);
-          })  
-      }
+  if (nowPoint === bulletpoint) {
+    // console.log('end');
+  };
+  rect.transition()
+    .ease("linear")
+    .duration(100)        
+    .attr('transform', function(d) { return 'translate(' + nowPoint + ')'; })
+    .each('end',function(){
+      if (detect(nowPoint,origin,width,height) === true) {
+        if (detectStone(nowPoint) != true) {
+          loop(xm,ym,nowPoint,bulletpoint,rect);  
+        }
+        else {
+          d3.select(this).attr('display','none');
+          console.log(d3.select(this))
+        }
+      };      
+    })  
+}
 
 d3.select('body').call(d3.keybinding()
     .on('←', move(-2, 0, 0))
