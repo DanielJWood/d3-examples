@@ -149,30 +149,30 @@ function shoot() {
         .attr('height',"10")
         .attr("class","id2 zi" + zi);
 
-      loop();
-
-      function loop() {        
-
-        console.log(xm)
-        console.log(ym)        
-        var nowPoint = [point[0]+xm,point[1]+ym];
-        console.log(nowPoint)
-
-        if (nowPoint === bulletpoint) {
-          console.log('end');
-        };
-        rect.transition()
-          .ease("linear")
-          .duration(1000)        
-          .attr('transform', function(d) { return 'translate(' + nowPoint + ')'; })
-          .each('end',function(){
-            console.log('end')
-            loop();
-          })  
-      }
+      loop(xm,ym,point,bulletpoint,rect);
       
     };
 }
+
+      function loop(xm,ym,point,bulletpoint,rect) {        
+
+        // console.log(xm)
+        // console.log(ym)        
+        var nowPoint = [point[0]+(xm*10),point[1]+(ym*10)];
+        console.log(nowPoint)
+
+        if (nowPoint === bulletpoint) {
+          // console.log('end');
+        };
+        rect.transition()
+          .ease("linear")
+          .duration(100)        
+          .attr('transform', function(d) { return 'translate(' + nowPoint + ')'; })
+          .each('end',function(){
+            console.log('end')
+            loop(xm,ym,nowPoint,bulletpoint,rect);
+          })  
+      }
 
 d3.select('body').call(d3.keybinding()
     .on('←', move(-2, 0, 0))

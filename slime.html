@@ -22,7 +22,7 @@ layout: keybind
             opacity: 0.3;
         }
         #id1 {fill:#FF00FF;}
-        .id2 {fill:#00FF00;}
+        /*.id2 {fill:#00FF00;}*/
         #id3 {fill:#EE4000;}
 
 
@@ -30,7 +30,11 @@ layout: keybind
 
   </head>
   <body>
-    <button onclick="turn()">Turn</button>
+
+    My high is 1100
+    <div id="slime-count">
+
+    </div>  
 
     <div id="master">
 
@@ -134,6 +138,8 @@ function shoot() {
       // event.preventDefault();
       zi += 1;
 
+      document.getElementById('slime-count').innerHTML = zi;
+
       var bp = [point[0],point[1]];
       if (direction === 0) {bp[0] = 0;}
       else if (direction === 1) {bp[1] = 0;}
@@ -147,25 +153,23 @@ function shoot() {
         .attr('transform', function(d) { return 'translate(' + point + ')'; })
         .attr('width',"10")
         .attr('height',"10")
+        .attr('fill','#00FF00')
         .attr("class","id2 zi" + zi);
 
       loop();
 
       function loop() {        
 
-        // console.log(xm)
-        // console.log(ym)        
-        var nowPoint = [point[0]+xm,point[1]+ym];
-        // console.log(nowPoint)
+        var nowPoint = [point[0]+randomIntFromInterval(-100,100)*xm,point[1]+ randomIntFromInterval(-100,100)*ym];
 
-        if (nowPoint === bulletpoint) {
-          // console.log('end');
-        };
         rect.transition()
           .ease("linear")
           .duration(10000)        
           .attr('transform', function(d) { return 'translate(' + nowPoint + ')'; })
+          .attr('fill','#EE4000')
           .each('end',function(){
+            
+
             loop();
           })  
       }
