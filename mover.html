@@ -1,0 +1,143 @@
+---
+layout: keybind
+---
+
+<style>
+    #master {
+      border: 1px black solid;
+      width: 100%;
+      height: 500px;
+      background-color: black;
+    }    
+
+
+</style>
+<div id="master">
+
+</div>
+
+<script>
+var its = 0;
+var itsN = 8;
+var scroll = 100; //(scroll amount) Need to do this based on height?
+var width = parseInt(d3.select("#master").style("width"));
+var height = 500;
+
+var svg = d3.select("#master").append("svg")
+    .attr("width", width)
+    .attr("height", height)
+
+var edge = 50;
+var bottom = 500;
+
+  //Box parameters
+  var barPadding = 1;
+  var imgWidth = 50;
+  var imgHeight = 50;
+
+  var defs = svg.append("defs")
+            .attr("id","mdef")
+            
+  var pattern1 = defs.append("pattern")
+    .attr("height",imgHeight)
+    .attr("width",imgWidth)
+    .attr("id","imageID1")
+    .attr("width",1)
+    .attr("height",1)
+    .append("svg:image")
+      .attr("width",100)
+      .attr("height",100)
+      .attr("xlink:href", "../img/paul-green.png");
+
+  var pattern2 = defs.append("pattern")
+    .attr("height",imgHeight)
+    .attr("width",imgWidth)
+    .attr("id","imageID2")
+    .append("svg:image")
+      .attr("x",0)
+      .attr("y",0)
+      .attr("width",imgWidth - 10)
+      .attr("height",imgHeight - 10)
+      .attr("xlink:href", "http://placekitten.com/g/600/600");
+
+var scenery = [25,5,25,5,25,5,25,5,25,5,25,5,25,5,25,5,25,5,25,5,25,5,25,5,25,5,25,5,25,5,25,5,25,5,25,5,25,5,25,5,25,5,25,5,25,5,25,5,25,5,25,5,25,5,25,5,25,5,25,5,25,5,25,5,25,5,25,5,25,5,25,5,25,5,25,5,25,5,25,5,25,5,25,5,25,5,25,5,25,5,25,5,25,5,25,5,25,5,25,5,25,5,25,5,25,5,25,5,25,5,25,5,25,5,25,5,25,5,25,5,25,5,25,5,25,5,25];
+
+var group = svg
+    .append("g")
+    .attr("id", "grouper")
+    .attr("transform", "translate(0,0)");
+
+var rect = group.selectAll("rect")
+    .data(scenery)
+    .enter()
+    .append("rect")
+    .attr("stroke", "red")
+    .attr("fill", "blue")
+    .attr("width", 200)
+    .attr("height", 200)
+    .attr("x", function(d,i) {return d*30})
+    .attr("y", function(d,i) {return i*400});
+
+
+var square1 = svg.append("rect")
+  .attr("x",10)
+  .attr("y", 50)
+  .attr("width",100)
+  .attr("height",100)
+  .attr("fill","transparent")
+  .style("fill", "url(#imageID1)");
+
+
+function upwards() {
+  its -= 1;
+  square1.transition()
+    .ease("linear")
+    .duration(100)        
+    .attr("x",((1 - Math.cos(its/itsN*Math.PI))*((width-100)/2)));
+
+  var yy = group[0]["0"].transform.baseVal["0"].matrix.f + scroll;
+  console.log(yy);
+
+  group.transition()
+    .ease("linear")
+    .duration(100)  
+    .attr("transform", "translate(" + 0 + "," + yy + ")");
+
+}
+
+function downwards() {
+  its +=1;
+  square1.transition()
+    .ease("linear")
+    .duration(100)        
+    .attr("x",((1 - Math.cos(its/itsN*Math.PI))*((width-100)/2)));
+
+var yy = group[0]["0"].transform.baseVal["0"].matrix.f + -scroll;
+console.log(yy);
+
+  group.transition()
+    .ease("linear")
+    .duration(100)  
+    .attr("transform", "translate(" + 0 + "," + yy + ")");
+
+}
+
+function move(direction) {
+  return function(event) {
+    event.preventDefault();
+      if (direction === "up") {
+        console.log('up');
+        upwards();
+      } else if (direction === "down") {
+        downwards();
+      };
+  };
+}
+
+d3.select('body').call(d3.keybinding()
+    .on('←', move("up"))
+    .on('↑', move("up"))
+    .on('→', move("down"))
+    .on('↓', move("down")));
+
+</script>
